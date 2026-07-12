@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FCTC — Home (Wireframe)</title>
+    <style>
+      /* ---- Wireframe design tokens (neutral / grayscale) ---- */
+      :root {
+        --ink: #333;
+        --line: #9a9a9a;
+        --line-strong: #4a4a4a;
+        --fill: #f2f2f2;
+        --fill-alt: #e7e7e7;
+        --bar: #c9c9c9;
+        --bar-strong: #9a9a9a;
+        --radius: 4px;
+        --gap: 20px;
+        --maxw: 1080px;
+        --font:
+          ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+          sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 32px 20px 64px;
+        font-family: var(--font);
+        color: var(--ink);
+        background: #fbfbfb;
+        line-height: 1.4;
+      }
+
+      .wrap {
+        max-width: var(--maxw);
+        margin: 0 auto;
+      }
+
+      /* ---- Section scaffolding ---- */
+      .section {
+        position: relative;
+        border: 2px solid var(--line-strong);
+        border-radius: var(--radius);
+        padding: 28px 24px;
+        margin-bottom: 40px;
+        background: #fff;
+      }
+      .section__label {
+        position: absolute;
+        top: -12px;
+        right: 16px;
+        background: #fbfbfb;
+        padding: 0 8px;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #777;
+      }
+
+      /* ---- Wireframe primitives ---- */
+      .box {
+        border: 1.5px dashed var(--line);
+        border-radius: var(--radius);
+        background: var(--fill);
+      }
+      .bar {
+        height: 12px;
+        background: var(--bar);
+        border-radius: 3px;
+        margin: 10px 0;
+      }
+      .bar.short {
+        width: 55%;
+      }
+      .bar.mid {
+        width: 75%;
+      }
+      .bar.long {
+        width: 100%;
+      }
+      .bar.tall {
+        height: 26px;
+        background: var(--bar-strong);
+      }
+
+      .lines .bar:last-child {
+        margin-bottom: 0;
+      }
+
+      .label {
+        font-size: 13px;
+        color: #888;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin: 0 0 6px;
+      }
+
+      /* Placeholder image / media box with X */
+      .media {
+        position: relative;
+        background:
+          linear-gradient(
+            to top right,
+            transparent calc(50% - 1px),
+            var(--line) 50%,
+            transparent calc(50% + 1px)
+          ),
+          linear-gradient(
+            to bottom right,
+            transparent calc(50% - 1px),
+            var(--line) 50%,
+            transparent calc(50% + 1px)
+          ),
+          var(--fill-alt);
+      }
+
+      /* CTA button placeholder */
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 2px solid var(--line-strong);
+        border-radius: var(--radius);
+        padding: 12px 24px;
+        background: var(--fill-alt);
+        font-size: 14px;
+        letter-spacing: 0.04em;
+        color: #555;
+      }
+      .cta::after {
+        content: "▸";
+        font-size: 12px;
+      }
+
+      /* ============ HERO ============ */
+      .hero {
+        padding: 0;
+        overflow: hidden;
+      }
+      .hero__bg {
+        position: relative;
+        min-height: 360px;
+        display: grid;
+        place-items: center;
+        border-radius: var(--radius);
+      }
+      .hero__bg-label {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #888;
+      }
+      .hero__content {
+        position: relative;
+        width: min(560px, 82%);
+        text-align: center;
+        padding: 28px 32px;
+        background: rgba(255, 255, 255, 0.78);
+        border-radius: var(--radius);
+      }
+      .hero__content .bar {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero__content .bar.tall {
+        width: 80%;
+        margin-top: 0;
+      }
+      .hero__cta {
+        margin-top: 18px;
+      }
+
+      /* ============ SERVICES ============ */
+      .services__heading {
+        text-align: center;
+        margin-bottom: 24px;
+      }
+      .services__heading .bar {
+        height: 22px;
+        width: 40%;
+        margin: 0 auto;
+        background: var(--bar-strong);
+      }
+      .services__grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--gap);
+      }
+      /* Each service is a native <details> accordion */
+      .service {
+        overflow: hidden;
+      }
+      .service__head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 18px 20px;
+        cursor: pointer;
+        list-style: none;
+      }
+      .service__head::-webkit-details-marker {
+        display: none;
+      }
+      .service__head .bar {
+        height: 16px;
+        width: 60%;
+        margin: 0;
+        background: var(--bar-strong);
+      }
+      /* Pronounced circular chevron affordance */
+      .chev {
+        flex: none;
+        width: 30px;
+        height: 30px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--line-strong);
+        border-radius: 50%;
+        color: var(--line-strong);
+        transition: transform 0.2s ease;
+      }
+      .chev svg {
+        width: 16px;
+        height: 16px;
+        display: block;
+      }
+      .service[open] .chev {
+        transform: rotate(180deg);
+      }
+      .service__body {
+        padding: 0 20px 20px;
+      }
+      /* Wide viewport: no accordion — both items shown, chevron hidden */
+      .service__body {
+        display: block;
+      }
+      .service .chev {
+        display: none;
+      }
+
+      /* ============ PORTFOLIO ============ */
+      /* Carousel: swipable/scrollable media+overlay track (all viewports) */
+      .portfolio__carousel {
+        position: relative;
+      }
+      .portfolio__track {
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        padding-bottom: 12px;
+        /* thin neutral scrollbar */
+        scrollbar-width: thin;
+        scrollbar-color: var(--bar) transparent;
+      }
+      .portfolio__track::-webkit-scrollbar {
+        height: 8px;
+      }
+      .portfolio__track::-webkit-scrollbar-thumb {
+        background: var(--bar);
+        border-radius: 4px;
+      }
+      .portfolio__slide {
+        flex: 0 0 82%;
+        scroll-snap-align: center;
+        height: 200px;
+        display: grid;
+        place-items: center;
+        position: relative;
+      }
+      .portfolio__slide .label {
+        position: absolute;
+        top: 10px;
+        left: 12px;
+      }
+      /* display text overlaid on each media slide */
+      .portfolio__slide .bar {
+        width: 45%;
+        height: 24px;
+        margin: 0;
+        background: var(--bar-strong);
+      }
+      .portfolio__arrow {
+        position: absolute;
+        top: 90px;
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        border: 2px solid var(--line-strong);
+        border-radius: 50%;
+        background: #fff;
+        color: #666;
+        font-size: 16px;
+        cursor: pointer;
+        user-select: none;
+      }
+      .portfolio__arrow.prev {
+        left: 4px;
+      }
+      .portfolio__arrow.next {
+        right: 4px;
+      }
+      /* static paragraph + CTA below the carousel */
+      .portfolio__static {
+        text-align: center;
+        margin-top: 24px;
+      }
+      .portfolio__static .lines {
+        max-width: 520px;
+        margin: 0 auto 18px;
+      }
+
+      /* ============ ABOUT ============ */
+      .about__row {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto 1fr;
+        align-items: center;
+        gap: 16px;
+      }
+      .about__link .bar {
+        height: 12px;
+        width: 80%;
+        margin: 0 auto;
+      }
+      .about__divider {
+        width: 1px;
+        align-self: stretch;
+        background: var(--line);
+      }
+
+      /* =====================================================
+       NARROW VIEWPORT  (≤ 720px)
+    ===================================================== */
+      @media (max-width: 720px) {
+        /* Hero: narrower content panel over the background image */
+        .hero__bg {
+          min-height: 300px;
+        }
+        .hero__content {
+          width: min(560px, 88%);
+        }
+        .hero__content .bar.tall {
+          width: 90%;
+        }
+
+        /* Services: functional accordion — chevron shown, closed items collapse */
+        .services__grid {
+          grid-template-columns: 1fr;
+        }
+        .services__heading .bar {
+          width: 65%;
+        }
+        .service .chev {
+          display: inline-flex;
+        }
+        .service:not([open]) .service__body {
+          display: none;
+        }
+        .service__head .bar {
+          width: 70%;
+        }
+
+        /* Portfolio: carousel preserved; one slide per view */
+        .portfolio__slide {
+          flex-basis: 90%;
+          height: 170px;
+        }
+        .portfolio__arrow {
+          top: 75px;
+        }
+
+        /* About: stack links */
+        .about__row {
+          grid-template-columns: 1fr;
+        }
+        .about__divider {
+          display: none;
+        }
+        .about__link .bar {
+          width: 60%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <!-- ================= HERO ================= -->
+      <section class="section hero">
+        <span class="section__label">Hero</span>
+        <div class="box media hero__bg">
+          <span class="hero__bg-label">Background Image</span>
+          <div class="hero__content">
+            <p class="label">H1</p>
+            <div class="bar tall"></div>
+            <div class="lines" style="margin: 14px 0">
+              <div class="bar long"></div>
+              <div class="bar mid"></div>
+            </div>
+            <div class="hero__cta"><span class="cta">CTA Button</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SERVICES ================= -->
+      <section class="section">
+        <span class="section__label">Services</span>
+        <div class="services__heading">
+          <p class="label">H2</p>
+          <div class="bar"></div>
+        </div>
+        <div class="services__grid">
+          <details class="box service" open>
+            <summary class="service__head">
+              <span class="bar"></span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 16 16">
+                  <path
+                    d="M3 6l5 5 5-5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </summary>
+            <div class="service__body">
+              <p class="label" style="margin: 14px 0 6px">H3</p>
+              <div class="lines">
+                <div class="bar long"></div>
+                <div class="bar mid"></div>
+              </div>
+            </div>
+          </details>
+          <details class="box service">
+            <summary class="service__head">
+              <span class="bar"></span>
+              <span class="chev" aria-hidden="true">
+                <svg viewBox="0 0 16 16">
+                  <path
+                    d="M3 6l5 5 5-5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+            </summary>
+            <div class="service__body">
+              <p class="label" style="margin: 14px 0 6px">H3</p>
+              <div class="lines">
+                <div class="bar long"></div>
+                <div class="bar mid"></div>
+              </div>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- ================= PORTFOLIO ================= -->
+      <section class="section">
+        <span class="section__label">Portfolio</span>
+
+        <!-- Swipable / scrollable media carousel with display-text overlay -->
+        <div class="portfolio__carousel">
+          <div class="portfolio__track" id="portfolioTrack">
+            <div class="box media portfolio__slide">
+              <span class="label">Background Image</span>
+              <div class="bar"></div>
+            </div>
+            <div class="box media portfolio__slide">
+              <span class="label">Background Image</span>
+              <div class="bar"></div>
+            </div>
+            <div class="box media portfolio__slide">
+              <span class="label">Background Image</span>
+              <div class="bar"></div>
+            </div>
+            <div class="box media portfolio__slide">
+              <span class="label">Background Image</span>
+              <div class="bar"></div>
+            </div>
+          </div>
+          <div class="portfolio__arrow prev" data-dir="-1">‹</div>
+          <div class="portfolio__arrow next" data-dir="1">›</div>
+        </div>
+
+        <!-- Static paragraph + CTA (do not move with the carousel) -->
+        <div class="portfolio__static">
+          <div class="lines">
+            <div class="bar long"></div>
+            <div class="bar mid"></div>
+          </div>
+          <span class="cta">CTA Button</span>
+        </div>
+      </section>
+
+      <!-- ================= ABOUT ================= -->
+      <section class="section">
+        <span class="section__label">About</span>
+        <div class="about__row">
+          <div class="about__link"><div class="bar"></div></div>
+          <div class="about__divider"></div>
+          <div class="about__link"><div class="bar"></div></div>
+          <div class="about__divider"></div>
+          <div class="about__link"><div class="bar"></div></div>
+        </div>
+      </section>
+    </div>
+    <script>
+      // Carousel arrows scroll the media track by roughly one slide.
+      (function () {
+        var track = document.getElementById("portfolioTrack");
+        if (!track) return;
+        document.querySelectorAll(".portfolio__arrow").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var dir = Number(btn.getAttribute("data-dir")) || 1;
+            var slide = track.querySelector(".portfolio__slide");
+            var step = slide
+              ? slide.getBoundingClientRect().width + 16
+              : track.clientWidth * 0.8;
+            track.scrollBy({ left: dir * step, behavior: "smooth" });
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

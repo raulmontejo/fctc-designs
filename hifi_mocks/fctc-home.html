@@ -1,0 +1,1277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forest City Tech Coop</title>
+    <link rel="preconnect" href="https://fonts.bunny.net" />
+    <link
+      href="https://fonts.bunny.net/css?family=inter:400,500,600|jetbrains-mono:400,500|plus-jakarta-sans:500,600,700,800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ── Brand tokens (from style tile v1.0) ───────────── */
+      :root {
+        --green-50: #f4fae9;
+        --green-100: #e5f2d0;
+        --green-200: #cce5a8;
+        --green-300: #add876;
+        --green-400: #96ca51;
+        --green-500: #79a83c;
+        --green-600: #5e842e;
+        --green-700: #486727;
+        --green-800: #3b5223;
+        --green-900: #334620;
+        --green-950: #19260c;
+        --neutral-50: #faf9f7;
+        --neutral-100: #f2f0ec;
+        --neutral-200: #e4e1db;
+        --neutral-300: #cfcbc3;
+        --neutral-400: #b2ada3;
+        --neutral-500: #908a80;
+        --neutral-600: #746e65;
+        --neutral-700: #5d5851;
+        --neutral-800: #4a4540;
+        --neutral-900: #3a3835;
+        --neutral-950: #252220;
+        --amber-50: #fdf8ee;
+        --amber-100: #f9ecd0;
+        --amber-200: #f2d6a0;
+        --amber-300: #e9bc66;
+        --amber-400: #e3a63c;
+        --amber-500: #d28e24;
+        --amber-600: #ba711c;
+        --amber-700: #9b551b;
+        --white: #ffffff;
+        --font-display:
+          "Plus Jakarta Sans", "Avenir Next", system-ui, sans-serif;
+        --font-body: "Inter", "Helvetica Neue", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+        --radius-md: 8px;
+        --radius-lg: 12px;
+        --radius-xl: 16px;
+        --shadow-sm:
+          0 1px 3px rgba(37, 34, 32, 0.08), 0 1px 2px rgba(37, 34, 32, 0.04);
+        --shadow-md:
+          0 4px 6px rgba(37, 34, 32, 0.07), 0 2px 4px rgba(37, 34, 32, 0.04);
+        --maxw: 1120px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--font-body);
+        color: var(--neutral-950);
+        background: var(--neutral-50);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
+      img,
+      svg {
+        display: block;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .wrap {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      .overline {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--green-600);
+      }
+
+      /* ── Buttons (from style tile) ─────────────────────── */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 22px;
+        font-family: var(--font-body);
+        font-size: 15px;
+        font-weight: 500;
+        border-radius: var(--radius-md);
+        border: none;
+        cursor: pointer;
+        line-height: 1.4;
+        transition:
+          background 150ms ease,
+          border-color 150ms ease,
+          color 150ms ease;
+      }
+      .btn-primary {
+        background: var(--green-400);
+        color: var(--white);
+      }
+      .btn-primary:hover {
+        background: var(--green-500);
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--green-700);
+        border: 1.5px solid var(--green-400);
+      }
+      .btn-outline:hover {
+        background: var(--green-50);
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--green-700);
+        padding-left: 6px;
+        padding-right: 6px;
+      }
+      .btn-ghost:hover {
+        color: var(--green-800);
+      }
+      /* on dark backgrounds */
+      .btn-ondark {
+        background: transparent;
+        color: var(--white);
+        border: 1.5px solid var(--neutral-700);
+      }
+      .btn-ondark:hover {
+        border-color: var(--green-400);
+        color: var(--green-300);
+      }
+
+      /* ── Circuit-tree brand mark ───────────────────────── */
+      .mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: var(--green-400);
+        display: grid;
+        place-items: center;
+        flex: none;
+      }
+      .mark svg {
+        width: 20px;
+        height: 20px;
+      }
+      .mark--lg {
+        width: 44px;
+        height: 44px;
+      }
+      .mark--lg svg {
+        width: 26px;
+        height: 26px;
+      }
+
+      /* ── Circuit-branch decoration system ──────────────── */
+      /* Symbols are defined once (hidden <svg> at top of <body>) and
+         referenced via <use>. Each placement is restyled independently:
+         color via `color`, prominence via `opacity`, plus size/rotation. */
+      .branchfield {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .branch {
+        position: absolute;
+        color: var(--green-400); /* default trace color */
+      }
+      /* zoomed-in canopy used as a faint background texture */
+      .macro {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+      /* anchor the texture to one side and fade toward center */
+      .macro--left {
+        -webkit-mask-image: linear-gradient(
+          to right,
+          #000,
+          #000 20%,
+          transparent 66%
+        );
+        mask-image: linear-gradient(to right, #000, #000 20%, transparent 66%);
+      }
+      .macro--right {
+        -webkit-mask-image: linear-gradient(
+          to right,
+          #000,
+          #000 20%,
+          transparent 66%
+        );
+        mask-image: linear-gradient(to right, #000, #000 20%, transparent 66%);
+        transform: scaleX(
+          -1
+        ); /* mirror ink + fade together -> lands on the right */
+      }
+      .branch--green {
+        color: var(--green-400);
+      }
+      .branch--green-deep {
+        color: var(--green-600);
+      }
+      .branch--green-soft {
+        color: var(--green-300);
+      }
+      .branch--amber {
+        color: var(--amber-400);
+      }
+      .branch--white {
+        color: var(--white);
+      }
+      /* keep foreground content above the branch layer */
+      .section > .wrap {
+        position: relative;
+        z-index: 1;
+      }
+      /* ── Small circuit motifs & flourishes ─────────────── */
+      :root {
+        --motif-lead: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2026%2012'%3E%3Cg%20fill='none'%20stroke='black'%20stroke-width='1.6'%20stroke-linecap='round'%3E%3Cpath%20d='M2%206H17'/%3E%3Cpath%20d='M11%206L15%202'/%3E%3C/g%3E%3Ccircle%20cx='2'%20cy='6'%20r='1.5'/%3E%3Ccircle%20cx='15'%20cy='2'%20r='1.5'/%3E%3Ccircle%20cx='20'%20cy='6'%20r='3'/%3E%3C/svg%3E");
+        --motif-pad: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2022%2014'%3E%3Ccircle%20cx='5'%20cy='7'%20r='4'/%3E%3Cg%20fill='none'%20stroke='black'%20stroke-width='1.6'%20stroke-linecap='round'%3E%3Cpath%20d='M9%207H20'/%3E%3Cpath%20d='M15%207L19%203'/%3E%3C/g%3E%3Ccircle%20cx='19'%20cy='3'%20r='1.4'/%3E%3C/svg%3E");
+        --motif-corner: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2030%2020'%3E%3Cg%20fill='none'%20stroke='black'%20stroke-width='1.6'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M29%204H16L10%2010'/%3E%3Cpath%20d='M16%204V0'/%3E%3C/g%3E%3Ccircle%20cx='10'%20cy='10'%20r='2.4'/%3E%3Ccircle%20cx='29'%20cy='4'%20r='1.4'/%3E%3C/svg%3E");
+        --motif-rule: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20120%2014'%3E%3Cg%20fill='none'%20stroke='black'%20stroke-width='1.4'%20stroke-linecap='round'%3E%3Cpath%20d='M0%207H120'/%3E%3Cpath%20d='M30%207L34%203'/%3E%3Cpath%20d='M60%207V2'/%3E%3Cpath%20d='M90%207L86%2011'/%3E%3C/g%3E%3Ccircle%20cx='34'%20cy='3'%20r='1.6'/%3E%3Ccircle%20cx='60'%20cy='2'%20r='2'/%3E%3Ccircle%20cx='86'%20cy='11'%20r='1.6'/%3E%3C/svg%3E");
+      }
+      /* pad-and-trace lead-in on every eyebrow label */
+      .overline {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .overline::before {
+        content: "";
+        flex: none;
+        width: 24px;
+        height: 12px;
+        background: currentColor;
+        -webkit-mask: var(--motif-lead) no-repeat center / contain;
+        mask: var(--motif-lead) no-repeat center / contain;
+      }
+      .footer-col h4 {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .footer-col h4::before {
+        content: "";
+        flex: none;
+        width: 18px;
+        height: 10px;
+        background: currentColor;
+        -webkit-mask: var(--motif-lead) no-repeat center / contain;
+        mask: var(--motif-lead) no-repeat center / contain;
+      }
+      /* pad-style bullets in the principles list */
+      .principle-dot {
+        width: 24px;
+        height: 15px;
+        border-radius: 0;
+        background: var(--green-500);
+        -webkit-mask: var(--motif-pad) no-repeat center / contain;
+        mask: var(--motif-pad) no-repeat center / contain;
+      }
+      /* corner node tucked into each service card */
+      .service-card {
+        position: relative;
+      }
+      .service-card::after {
+        content: "";
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 30px;
+        height: 20px;
+        pointer-events: none;
+        opacity: 0.6;
+        background: var(--green-300);
+        -webkit-mask: var(--motif-corner) no-repeat center / contain;
+        mask: var(--motif-corner) no-repeat center / contain;
+      }
+      /* broken-trace divider rule */
+      .circuit-divider {
+        height: 14px;
+        background: var(--green-400);
+        opacity: 0.5;
+        -webkit-mask: var(--motif-rule) repeat-x left center;
+        mask: var(--motif-rule) repeat-x left center;
+        -webkit-mask-size: 120px 14px;
+        mask-size: 120px 14px;
+      }
+      .footer-bottom {
+        border-top: none;
+      }
+
+      /* ── Header ────────────────────────────────────────── */
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(250, 249, 247, 0.85);
+        backdrop-filter: saturate(1.4) blur(8px);
+        border-bottom: 1px solid var(--neutral-200);
+      }
+      .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        height: 68px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .brand-name {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 17px;
+        letter-spacing: -0.02em;
+        color: var(--neutral-950);
+        white-space: nowrap;
+      }
+      .site-nav {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .site-nav a {
+        padding: 8px 14px;
+        border-radius: var(--radius-md);
+        font-size: 15px;
+        color: var(--neutral-700);
+        transition:
+          background 120ms ease,
+          color 120ms ease;
+      }
+      .site-nav a:hover {
+        background: var(--neutral-100);
+        color: var(--neutral-950);
+      }
+      /* the in-menu "Get in touch" only shows on mobile (button covers desktop) */
+      .site-nav__cta {
+        display: none;
+      }
+      .header-cta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .nav-toggle {
+        display: none;
+        width: 44px;
+        height: 44px;
+        flex: none;
+        align-items: center;
+        justify-content: center;
+        border: 1.5px solid var(--neutral-300);
+        border-radius: var(--radius-md);
+        background: var(--white);
+        color: var(--neutral-800);
+        cursor: pointer;
+      }
+      .nav-toggle svg {
+        width: 22px;
+        height: 22px;
+      }
+      .nav-toggle .icon-close {
+        display: none;
+      }
+      .site-header.is-open .nav-toggle .icon-open {
+        display: none;
+      }
+      .site-header.is-open .nav-toggle .icon-close {
+        display: block;
+      }
+
+      /* ── Hero (dark, PCB texture) ──────────────────────── */
+      .hero {
+        position: relative;
+        overflow: hidden;
+        background: var(--neutral-950);
+        color: var(--white);
+      }
+      .hero-inner {
+        position: relative;
+        z-index: 1;
+        padding: 104px 24px 112px;
+      }
+      .hero .overline {
+        color: var(--green-300);
+      }
+      .hero h1 {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: clamp(38px, 6vw, 60px);
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        margin: 16px 0 20px;
+        max-width: 640px;
+      }
+      .hero p {
+        font-size: clamp(17px, 2.2vw, 20px);
+        line-height: 1.6;
+        color: var(--neutral-300);
+        max-width: 560px;
+        margin-bottom: 32px;
+      }
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      /* ── Section scaffolding ───────────────────────────── */
+      .section {
+        position: relative;
+        overflow: hidden;
+        padding: 88px 0;
+      }
+      .section-head {
+        max-width: 640px;
+        margin-bottom: 44px;
+      }
+      .section-head h2 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: clamp(28px, 4vw, 36px);
+        line-height: 1.15;
+        letter-spacing: -0.025em;
+        margin: 10px 0 14px;
+      }
+      .section-head p {
+        font-size: 17px;
+        color: var(--neutral-600);
+        line-height: 1.6;
+      }
+
+      /* ── Services ──────────────────────────────────────── */
+      .services {
+        background: var(--neutral-50);
+      }
+      .service-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      /* stack in a single column until there's room for all three */
+      @media (max-width: 860px) {
+        .service-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .service-card {
+        background: var(--white);
+        border: 1px solid var(--neutral-200);
+        border-radius: var(--radius-lg);
+        padding: 28px 26px;
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition:
+          transform 150ms ease,
+          box-shadow 150ms ease,
+          border-color 150ms ease;
+      }
+      .service-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--green-200);
+      }
+      .service-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-md);
+        background: var(--green-50);
+        color: var(--green-600);
+        display: grid;
+        place-items: center;
+        margin-bottom: 6px;
+      }
+      .service-icon svg {
+        width: 22px;
+        height: 22px;
+      }
+      .service-card h3 {
+        font-family: var(--font-display);
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: var(--neutral-950);
+      }
+      .service-card p {
+        font-size: 14.5px;
+        color: var(--neutral-600);
+        line-height: 1.6;
+      }
+
+      /* ── Work carousel ─────────────────────────────────── */
+      .work {
+        background: var(--neutral-100);
+      }
+      .work-head {
+        max-width: 640px;
+      }
+      .work-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+        margin-top: 36px;
+      }
+      @media (max-width: 720px) {
+        .work-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .work-card {
+        display: flex;
+        flex-direction: column;
+        background: var(--white);
+        border: 1px solid var(--neutral-200);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+        transition:
+          transform 150ms ease,
+          box-shadow 150ms ease,
+          border-color 150ms ease;
+      }
+      .work-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--green-200);
+      }
+      .work-media {
+        height: 240px;
+        position: relative;
+        overflow: hidden;
+        background: var(--neutral-100);
+      }
+      .work-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+        display: block;
+        transition: transform 300ms ease;
+      }
+      .work-card:hover .work-media img {
+        transform: scale(1.03);
+      }
+      .work-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 500;
+        background: rgba(255, 255, 255, 0.92);
+        color: var(--neutral-800);
+        padding: 4px 10px;
+        border-radius: 9999px;
+      }
+      .work-body {
+        padding: 24px 24px 26px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        flex: 1;
+      }
+      .work-body .overline {
+        color: var(--green-600);
+        font-size: 11px;
+      }
+      .work-body h3 {
+        font-family: var(--font-display);
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+      .work-body p {
+        font-size: 14.5px;
+        color: var(--neutral-600);
+        line-height: 1.6;
+      }
+      .work-visit {
+        margin-top: 14px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 0.03em;
+        color: var(--green-700);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .work-card:hover .work-visit {
+        color: var(--green-800);
+      }
+
+      /* ── About band ────────────────────────────────────── */
+      .about {
+        background: var(--green-50);
+      }
+      .about-inner {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 56px;
+        align-items: center;
+      }
+      .about h2 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: clamp(26px, 3.6vw, 34px);
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        margin: 12px 0 18px;
+      }
+      .about p {
+        font-size: 16.5px;
+        color: var(--neutral-700);
+        line-height: 1.7;
+        margin-bottom: 14px;
+      }
+      .principles {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .principle {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        background: var(--white);
+        border: 1px solid var(--green-100);
+        border-radius: var(--radius-md);
+        padding: 16px 18px;
+      }
+      .principle-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--green-400);
+        flex: none;
+      }
+      .principle strong {
+        font-family: var(--font-display);
+        font-size: 15px;
+        font-weight: 600;
+        display: block;
+        color: var(--neutral-950);
+      }
+      .principle span {
+        font-size: 13.5px;
+        color: var(--neutral-600);
+      }
+
+      /* ── Footer ────────────────────────────────────────── */
+      .site-footer {
+        background: var(--neutral-950);
+        color: var(--neutral-300);
+        position: relative;
+        overflow: hidden;
+      }
+      .footer-top {
+        position: relative;
+        z-index: 1;
+        padding: 64px 0 48px;
+        display: grid;
+        grid-template-columns: 1.4fr 1fr 1fr;
+        gap: 40px;
+      }
+      .footer-brand .brand-name {
+        color: var(--white);
+      }
+      .footer-brand p {
+        margin-top: 14px;
+        font-size: 14.5px;
+        line-height: 1.6;
+        color: var(--neutral-400);
+        max-width: 300px;
+      }
+      .footer-brand .mono {
+        margin-top: 16px;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: var(--green-300);
+      }
+      .footer-col h4 {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--neutral-500);
+        margin-bottom: 16px;
+      }
+      .footer-col a {
+        display: block;
+        font-size: 14.5px;
+        color: var(--neutral-300);
+        padding: 6px 0;
+        transition: color 120ms ease;
+      }
+      .footer-col a:hover {
+        color: var(--green-300);
+      }
+      .footer-bottom {
+        position: relative;
+        z-index: 1;
+        border-top: 1px solid var(--neutral-800);
+        padding: 22px 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--neutral-500);
+      }
+
+      /* ── Narrow viewport ───────────────────────────────── */
+      @media (max-width: 860px) {
+        .about-inner {
+          grid-template-columns: 1fr;
+          gap: 32px;
+        }
+        .footer-top {
+          grid-template-columns: 1fr 1fr;
+        }
+        .footer-brand {
+          grid-column: 1 / -1;
+        }
+      }
+      @media (max-width: 720px) {
+        .site-nav {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 4px;
+          display: none;
+          background: var(--neutral-50);
+          border-bottom: 1px solid var(--neutral-200);
+          padding: 12px 24px 20px;
+          box-shadow: var(--shadow-md);
+        }
+        .site-header.is-open .site-nav {
+          display: flex;
+        }
+        .site-nav a {
+          padding: 12px 12px;
+        }
+        .site-nav__cta {
+          display: block;
+          color: var(--green-700);
+          font-weight: 600;
+        }
+        .header-cta .btn {
+          display: none;
+        }
+        .nav-toggle {
+          display: flex;
+        }
+        .section {
+          padding: 64px 0;
+        }
+        .hero-inner {
+          padding: 76px 24px 84px;
+        }
+        .footer-top {
+          grid-template-columns: 1fr;
+          gap: 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ============================================================
+         CIRCUIT-BRANCH SYMBOL LIBRARY
+         Five unique motifs, defined once, referenced anywhere via
+         <svg class="branch …"><use href="#br-x"></svg>. Paths use
+         currentColor so each placement recolors independently.
+    ============================================================ -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <defs>
+        <!-- br-a · ForestCityTechCoop_branch_1.svg (authentic logo branch) -->
+        <symbol id="br-a" viewBox="0 0 581 581">
+          <path
+            fill="currentColor"
+            d="M304.2,149.4c5.7-5.8,11.2-11.3,16.7-16.7.4-.4.5-.8.5-1.4,0-9.2,0-18.4,0-27.6,0-1-.6-1-1.2-1.2-2.9-1.2-4.6-3.9-4.2-7,.3-2.9,2.6-5.2,5.7-5.7,3.2-.5,6.4,1.5,7.2,4.6,1,3.5-.6,6.9-3.8,8-1,.4-1.3.8-1.3,1.9,0,9.3,0,18.5,0,27.8,0,.9-.3,1.5-.9,2.1-6,6-12,12-18.1,18-.6.6-.9,1.2-.9,2.1,0,2.5,0,4.9,0,7.4l.4.2c2.1-2.1,4.1-4.3,6.2-6.4,7.9-7.9,15.8-15.8,23.7-23.7.6-.6.9-1,.4-2-1.4-3-.4-6.2,2.3-8.2,2.4-1.7,6-1.5,8.3.6,2.3,2.1,2.8,5.6,1.1,8.5-1.6,2.6-4.9,3.8-7.8,2.6-1.3-.5-2-.2-2.9.7-10.2,10.3-20.5,20.5-30.7,30.7-.6.6-.9,1.2-.9,2.1,0,2.1,0,4.3,0,6.4,0,.6,0,1.1.5,1.5,3.3,3.3,6.5,6.5,9.8,9.8,0,0,.2.1.5.3,0-3.5,0-6.8,0-10.2,0-.9-.7-.7-1.2-.9-2.7-1.1-4.3-3.6-4.1-6.5.1-2.8,2-5.2,4.7-6,3.4-1,7,.8,8.2,4.1,1.2,3.5-.4,7.1-3.8,8.4-1,.4-1.3.9-1.3,1.9,0,3.6,0,7.3,0,10.9,0,.7,2.2,3.7,2.9,3.9.3,0,.5-.2.7-.4,5-5,10-10,15-14.9.4-.4.4-.8.4-1.3,0-6,0-12.1,0-18.1,0-1-.5-1.1-1.2-1.3-2.7-.9-4.3-2.9-4.6-5.8-.2-2.7.9-4.9,3.2-6.2,2.4-1.4,4.9-1.3,7.3.3,4.1,2.9,3.5,9.3-1.1,11.4-1,.4-1.2.9-1.2,1.9,0,6.2,0,12.3,0,18.5,0,.9-.2,1.5-.8,2.1-5,4.9-9.9,9.9-14.9,14.8-.7.7-1,1.1,0,2,1.4,1.3,3.3,2.5,4,4.2.6,1.7.1,3.8.1,5.7,0,2,0,4,0,6.4,2.4-2.4,4.5-4.6,6.6-6.7,4.9-4.9,9.8-9.8,14.7-14.7.6-.6.9-1.2.9-2.1,0-6.5,0-13.1,0-19.6,0-1-.2-1.5-1.2-1.9-3-1.1-4.7-4.2-4.1-7.4.6-3.1,3.3-5.3,6.5-5.3,3.2,0,6,2.2,6.5,5.4.6,3.1-1.1,6.2-4.1,7.3-1,.4-1.2.9-1.2,1.8,0,6.9,0,13.8,0,20.7,0,1-.3,1.6-1,2.3-7.6,7.5-15.1,15.1-22.7,22.7-.7.7-.9,1.4-.9,2.3,0,19,0,37.9,0,56.9,0,1-.3,1.6-1,2.3-11.4,11.4-22.8,22.8-34.2,34.2-1,1-1.3,1.9-1.3,3.3,0,46.9,0,93.7,0,140.6,0,.7,0,1.3.3,1.9.7,2.1,1.5,4.1,2.2,6.2.4,1,.6,2,.6,3.1,0,1.9,0,3.8,0,5.7,0,.9-.6,2.1.8,2.6.1,0,0,.6,0,.9,0,9,0,17.9,0,26.9,0,.9-.2,1.3-1.2,1.3-3.4,0-3.4,0-3.4-3.4,0-8.2,0-16.4,0-24.5,0-.6-.3-1.5.9-1.5.5,0,.3-.5.3-.8,0-2.7.2-5.3,0-8-.1-1.9-1.1-3.8-1.8-5.6-1-2.4-1.3-4.8-1.3-7.4,0-46,0-92.1,0-138.1,0-1.4-.4-2.4-1.4-3.4-17.1-17.1-34.2-34.1-51.3-51.2-.6-.6-.9-1.2-.9-2.1,0-24.9,0-49.7,0-74.6,0-.9.3-1.5.9-2.2,2.9-2.9,5.8-5.8,8.8-8.7.7-.7.6-1,0-1.6-1.8-1.7-3.5-3.5-5.3-5.2-.6-.6-.8-1.2-.8-2,0-3.6,0-7.3,0-10.9,0-1-.2-1.5-1.2-1.9-3-1.2-4.6-4.2-4-7.5.5-2.8,3.1-5.1,6-5.2,3.4-.2,6,1.7,6.9,4.9.9,3.2-.8,6.7-4,7.8-1,.4-1.2.9-1.2,1.8,0,3.3,0,6.6,0,10,0,.8.2,1.4.8,2,1.6,1.5,3.1,3.1,4.7,4.7.5.5.7.6,1.3,0,5.1-5.1,10.1-10.2,15.3-15.3.7-.7.3-1.1-.2-1.5-7.6-7.6-15.3-15.3-22.9-22.9-3.1-3.1-6.3-6.3-9.4-9.4-.6-.5-.7-1.1-.7-1.9,0-7.7,0-15.3,0-23,0-.9-.2-1.3-1.1-1.6-2.9-1-4.7-4.2-4.2-7.3.6-3.2,3.3-5.5,6.5-5.5,3.3,0,6.1,2.2,6.6,5.3.6,3.2-1.1,6.4-4.1,7.4-1,.4-1.2.8-1.2,1.8,0,7.2,0,14.4,0,21.6,0,.9.2,1.5.9,2.2,10.4,10.4,20.8,20.8,31.3,31.2.3.3.6,1.1,1.1.8.6-.4,1.4-.9,1.5-1.8,0-3.5,0-7,0-10.5,0-.6-.5-.9-.8-1.2-5.7-5.7-11.3-11.4-17.1-17-.8-.7-1.1-1.5-1.1-2.6,0-13.3,0-26.5,0-39.8,0-1-.2-1.4-1.2-1.8-3-1.1-4.7-4.3-4.1-7.3.6-3.2,3.3-5.4,6.5-5.4,3.1,0,5.9,2.2,6.5,5.1.7,3.3-.9,6.5-4,7.6-1,.4-1.3.8-1.2,1.8,0,13,0,26,0,39,0,.9.2,1.6.9,2.2,4.9,4.9,9.9,9.8,14.8,14.8.2.2.3.3.8.7,0-1.2,0-2.1,0-3.1,0-2.8,0-5.6,0-8.4,0-.9-.1-1.4-1.1-1.7-3-1.1-4.6-3.8-4.3-7,.3-2.8,2.5-5.2,5.2-5.7,2.9-.6,5.8.7,7.2,3.2,1.5,2.7,1.1,5.8-1.1,8-.7.7-1.5,1.2-2.4,1.5-.9.2-1.1.7-1.1,1.6,0,8.8,0,17.6,0,26.4,0,.9-.2,1.6-.9,2.2-10.2,10.1-20.3,20.3-30.4,30.4-.6.6-.9,1.1-.9,1.9,0,18.7,0,37.4,0,56.1,0,.3-.1.7.3,1.3,2.4-2.5,4.8-4.9,7.2-7.3,4-4,8-8.1,12.1-12.1.7-.7.9-1.3.9-2.2,0-10.1,0-20.2,0-30.3,0-1-.1-1.6-1.3-2-3-1-4.7-4.1-4.3-7.2.4-3,3.1-5.4,6.1-5.6,3.2-.2,6,1.8,6.8,4.9.9,3.1-.7,6.6-3.7,7.8-1.1.4-1.3,1-1.3,2.1,0,10.5,0,21,0,31.5,0,.8-.2,1.4-.8,2-7.1,7-14.1,14.1-21.1,21.1-.8.8-1.1,1.5-1.1,2.6,0,3.4,0,6.7,0,10.1,0,.7.2,1.3.7,1.9,1.4,1.3,2.8,2.7,4.1,4.1.7.8,1.1.7,1.8,0,7.8-7.9,15.7-15.7,23.6-23.6,2.6-2.6,5.3-5.3,7.9-7.9.5-.5.8-1,.8-1.8,0-20,0-40,0-60,0-.9-.3-1.2-1.1-1.5-3.1-1.1-4.9-4.3-4.2-7.5.6-3.1,3.3-5.3,6.5-5.3,3.3,0,6,2.2,6.6,5.5.5,3-1.2,6.2-4.2,7.3-1,.3-1.1.8-1.1,1.7,0,20.1,0,40.2,0,60.3,0,1.1-.3,1.9-1.1,2.7-10.6,10.6-21.2,21.2-31.8,31.8-.8.8-1,1.2,0,2.1,13.9,13.8,27.7,27.7,41.6,41.5.2.2.4.5.8,1,.3-1.6.2-2.9.2-4.1,0-2.2.7-4.6-.3-6.5-.9-1.8-2.9-3.1-4.4-4.6-4.5-4.5-9-9-13.5-13.5-.6-.6-.7-1.1-.7-1.9,0-5.8,0-11.6,0-17.4,0-.7-.1-1.1-.9-1.4-3.1-1-4.9-4-4.4-7.4.4-3,3.2-5.4,6.3-5.5,3.2,0,6,2.1,6.7,5.3.7,3.1-1,6.3-4,7.5-1,.4-1.3.8-1.3,1.9,0,5.3,0,10.7,0,16,0,.6,0,1.1.5,1.7,5.2,5.2,10.4,10.4,15.6,15.6.5-.4.3-.8.3-1.2,0-25,0-50.1,0-75.1,0-1-.3-1.3-1.2-1.7-3.1-1.2-4.8-4.4-4.1-7.6.6-3.1,3.4-5.3,6.6-5.2,3.2,0,5.9,2.3,6.5,5.5.6,3.1-1.2,6.2-4.3,7.4-.7.3-1,.5-1,1.3,0,22.1,0,44.2,0,66.3,0,.2-.1.5.4.8,1.7-1.7,3.4-3.5,5.1-5.3,1.2-1.2,2.4-2.5,3.7-3.7.6-.6.8-1,.5-1.9-1.4-3.5.6-7.6,4.1-8.7,3.8-1.2,7.5.9,8.5,4.7.7,2.7-.2,5-2.3,6.8-2.2,1.8-4.7,2-7.2.7-.7-.4-1.1-.4-1.7.2-3.4,3.4-6.8,6.8-10.2,10.2-.4.4-.8.7-.8,1.4,0,6.3,0,12.7,0,19.1.5,0,.7-.4.9-.6,10.6-10.6,21.1-21.1,31.7-31.7.6-.6.7-1,0-1.6-3.8-3.7-7.5-7.5-11.3-11.3-.6-.6-.9-1.2-.9-2.1,0-8.6,0-17.2,0-25.8,0-1-.3-1.3-1.2-1.7-3-1.1-4.7-4.2-4.1-7.3.6-3.3,3.3-5.5,6.6-5.5,3.1,0,5.9,2.3,6.4,5.2.6,3.3-1,6.4-4.1,7.6-.9.3-1.2.7-1.2,1.7,0,8.2,0,16.4,0,24.5,0,1,.3,1.7,1,2.4,2.9,2.8,5.7,5.7,8.5,8.5.4.4.8.7,1.4,1.3v-1.6c0-15.7,0-31.5,0-47.2,0-.9-.2-1.6-.9-2.2-8.2-8.2-16.5-16.4-24.7-24.7-.6-.6-1.1-.6-1.8-.3-3,1.3-6.4.2-8.1-2.5-1.8-2.8-1.3-6.3,1.1-8.5,2.3-2.1,5.9-2.3,8.4-.4,2.6,1.9,3.5,5.5,1.9,8.4-.3.5-.5.9,0,1.4,7.9,7.9,15.8,15.8,23.9,23.9,0-.8,0-1.3,0-1.7,0-4.6,0-9.2,0-13.7,0-1-.3-1.7-1-2.4-5.6-5.6-11.2-11.2-16.8-16.7-5.3-5.3-10.6-10.6-15.9-15.8-.6-.6-.6-1.2-.6-1.9,0-17.6,0-35.2,0-52.9,0-1.2-.4-2.1-1.2-2.9-5.2-5.1-10.2-10.2-15.4-15.3-.6-.6-.9-1.2-.9-2.1,0-6.7,0-13.5,0-20.2,0-.8-.1-1.2-1-1.5-3.2-1.1-4.9-4.2-4.3-7.4.6-3.1,3.4-5.4,6.6-5.4,3.2,0,5.9,2.3,6.5,5.3.6,3.3-1.1,6.4-4.3,7.5-.8.3-.9.7-.9,1.4,0,6.4,0,12.9,0,19.3,0,.7.2,1.2.7,1.7,4.9,4.9,9.8,9.8,14.7,14.7.7.7,1,.7,1.7,0,5.8-5.9,11.7-11.7,17.5-17.6.6-.6.9-1.3.9-2.2,0-5.9,0-11.9,0-17.8,0-.9-.2-1.4-1.1-1.7-3-1-4.9-4.1-4.4-7.1.5-3.3,3.2-5.6,6.4-5.7,3.1,0,6,2.2,6.6,5.2.7,3.3-1,6.4-4,7.6-.9.3-1,.8-1,1.6,0,6.3,0,12.6,0,18.9,0,1-.3,1.6-1,2.3-6.2,6.2-12.4,12.4-18.7,18.6-.7.7-1,1.4-1,2.4,0,17.4,0,34.8,0,52.2,0,.8.2,1.4.8,2,2.2,2.2,4.4,4.4,6.7,6.6.3.3.6.5,1.1,1,0-1.2,0-2.2,0-3.1,0-14.8,0-29.6,0-44.4,0-1.1-.3-1.5-1.3-1.9-3-1.2-4.6-4.3-4-7.5.6-3,3.3-5.2,6.4-5.2,3.2,0,5.9,2.1,6.5,5.3.7,3.3-.9,6.3-3.9,7.5-1,.4-1.3.8-1.3,1.9,0,8,0,16,0,24,0,.4,0,.7,0,1.5Z"
+          />
+        </symbol>
+
+        <!-- br-b · ForestCityTechCoop_branch_2.svg (authentic logo branch) -->
+        <symbol id="br-b" viewBox="0 0 581 581">
+          <path
+            fill="currentColor"
+            d="M119,210.1c-11.2,0-22.3,0-33.3,0-.9,0-1.2.4-1.4,1.1-1.2,3.1-4.3,4.8-7.5,4.2-3.2-.6-5.3-3.3-5.3-6.6,0-3.3,2.4-6,5.7-6.5,3-.5,6,1.2,7,4.1.4,1,.9,1.2,1.8,1.2,7,0,14.1,0,21.5,0-1.5-1.5-2.8-2.8-4.1-4.1-3.8-3.8-7.5-7.5-11.3-11.3-.8-.8-1.3-1-2.5-.5-3,1.3-6.4.2-8.1-2.5-1.7-2.7-1.3-6.2,1-8.3,2.3-2.2,5.8-2.5,8.5-.6,2.5,1.7,3.5,5.2,2.1,8.1-.3.7-.3,1.2.3,1.8,5.6,5.5,11.1,11.1,16.7,16.6.7.7,1.4,1,2.3,1,4.9,0,9.7,0,14.6,0,.4,0,.7.1,1.2-.2-.3-.4-.7-.7-1-1.1-5.3-5.3-10.6-10.6-15.9-16-.6-.6-1.1-.7-1.9-.4-3.1,1.1-6.4-.1-8-2.9-1.6-2.8-1-6.3,1.4-8.4,2.4-2.1,6.1-2.1,8.5,0,2.5,2.1,3.2,5.6,1.5,8.5-.4.7-.3,1.1.2,1.6,6,6,12,12,18,18,.6.6,1.3,1,2.2.9,2.2,0,4.5,0,6.7,0,.8,0,1.4.2,1.9.8,3.8,3.9,7.7,7.8,11.6,11.8.1,0,.2,0,.3-.1,0-1.7-.2-3.4,0-5.1.6-4-1-6.7-3.9-9.4-11.6-11.3-22.9-22.8-34.4-34.2-1-1-1.4-2-1.4-3.4,0-5.7,0-11.5,0-17.2,0-.8-.2-1.2-1-1.5-3.2-1.1-4.9-4.3-4.2-7.6.6-3.1,3.3-5.2,6.6-5.2,3.2,0,5.9,2.3,6.5,5.5.6,3.1-1.2,6.2-4.3,7.3-.8.3-1,.7-1,1.5,0,5.7,0,11.5,0,17.2,0,.6.1,1,.6,1.5,10.2,10.2,20.4,20.3,30.5,30.5,0,0,.2.2.3.2.5-.2.2-.6.2-.9,0-5.4,0-10.7,0-16.1,0-.8-.3-1.4-.8-1.9-5.3-5.3-10.6-10.6-15.9-16-.6-.6-1-.7-1.8-.4-3.6,1.3-7.5-.6-8.6-4.3-1.1-3.6,1-7.5,4.7-8.4,2.7-.6,5,.1,6.8,2.3,1.7,2.2,2,4.6.7,7.1-.5,1-.4,1.5.4,2.3,5.5,5.4,10.9,10.8,16.3,16.2.6.6.8,1.1.8,2,0,6.5,0,13,0,19.5,0,1,.3,1.8,1,2.4,1.3,1.2,2.4,2.4,3.7,3.6.5.5.7,1,.7,1.7,0,4.1,0,8.1,0,12.2,0,.9.2,1.5.9,2.2,29.8,29.7,59.5,59.5,89.2,89.2,3.6,3.6,7.1,7.1,10.9,10.9,0-2.7-.1-5.2,0-7.7.1-1.8-.5-3-1.7-4.3-29.8-29.7-59.5-59.4-89.2-89.2-.6-.6-.9-1.3-.9-2.2,0-3.7,0-7.4,0-11.1,0-.8-.2-1.1-1-1.4-3.3-1.2-5-4.2-4.3-7.5.6-3.2,3.3-5.4,6.6-5.3,3.3,0,6,2.4,6.5,5.8.4,2.9-1.3,5.9-4.2,7-.9.3-1.1.7-1.1,1.6,0,3.3,0,6.6,0,10,0,.9.3,1.5.9,2.1,19.9,19.9,39.9,39.8,59.8,59.8,10.1,10.1,20.1,20.2,30.2,30.2.6.6.9,1.3.9,2.2,0,3.8,0,7.7,0,11.5,0,.8.2,1.3.7,1.8,1.7,1.6,3.3,3.3,5,4.9.7.7,1,1.3,1,2.3,0,26.5,0,53.1,0,79.6,0,12.7,0,25.4,0,38.1,0,.9-.2,1.7-.9,2.4-1.6,1.7-3.2,3.5-4.8,5.3-.5.5-.7,1-.7,1.7,0,2.6,0,5.1,0,7.7,0,.7-.5,1.7.8,2.1.1,0,.1.6.1.9,0,9,0,18,0,27.1,0,.9-.2,1.2-1.2,1.2-3.5,0-3.5,0-3.5-3.4,0-8.1,0-16.3,0-24.4,0-.7-.5-1.7.9-1.7.5,0,.2-.7.2-1.1,0-3.1,0-6.2,0-9.3,0-.8.2-1.4.8-2,1.6-1.8,3.2-3.6,4.9-5.4.5-.6.7-1.1.7-1.9,0-38.7,0-77.5,0-116.2,0-.9-.4-1.5-1-2-12.2-12.2-24.5-24.4-36.7-36.7-1.5-1.5-2.9-2.9-4.3-4.4-.6-.6-1.2-.9-2.1-.9-16.8,0-33.6,0-50.3,0-.7,0-1,.3-1.5.8-1.1,1.3-2.4,2.5-3.6,3.7-8.1,8.1-16.1,16.1-24.2,24.2-.7.7-1.4.9-2.3.9-7.8,0-15.5,0-23.3,0-.9,0-1.3.2-1.6,1.1-1.1,3.2-4.5,5-7.9,4.1-3.1-.8-5.3-4-4.9-7.2.4-3.2,3.3-5.8,6.5-5.9,2.8,0,5.3,1.7,6.4,4.4.3.7.6,1,1.4,1,7.6,0,15.2,0,22.9,0,1,0,1.5-.6,2.1-1.2,6.4-6.4,12.8-12.8,19.2-19.2,2.1-2.1,4.3-4.3,6.4-6.4-.4-.4-.8-.3-1.2-.3-6.1,0-12.2,0-18.4,0-.9,0-1.5.2-2.1.9-4.3,4.4-8.7,8.7-13,13-.7.7-1.4.9-2.3.9-10.3,0-20.7,0-31,0-1.1,0-1.8.3-2.6,1.1-4.3,4.3-8.6,8.6-12.9,12.9-.7.6-.9,1.1-.4,2.1,1.4,2.9.3,6.4-2.4,8.2-2.6,1.7-6.2,1.4-8.4-.8-2.3-2.3-2.6-5.9-.8-8.5,1.9-2.7,5.3-3.7,8.2-2.3.8.4,1.2.3,1.9-.3,4.5-4.6,9.1-9.1,13.6-13.7.8-.8,1.6-1.1,2.7-1.1,10.3,0,20.7,0,31,0,1,0,1.6-.3,2.3-1,3.3-3.4,6.7-6.7,10-10,.3-.3.6-.7.9-1-.3-.5-.7-.3-1-.3-5.4,0-10.8,0-16.3,0-1.1,0-1.8-.3-2.6-1.1-4.1-4.2-8.3-8.3-12.4-12.5-.7-.7-1.1-.7-1.8,0-4,4-8,8-12,12-.8.8-1.5,1.1-2.7,1.1-7.1,0-14.3,0-21.4,0-.8,0-1.2.2-1.5,1-1.1,3.1-4.2,4.9-7.5,4.3-3-.5-5.4-3.3-5.4-6.5,0-3.3,2.3-6.1,5.5-6.6,3.2-.5,6.2,1.2,7.3,4.3.3.8.6,1.1,1.5,1,7,0,13.9,0,20.9,0,.8,0,1.3-.2,1.8-.8,3.9-3.9,7.8-7.8,11.7-11.7.7-.6.7-1,0-1.6-2.4-2.3-4.7-4.7-7-7-.6-.6-1.2-.8-2-.8-6.9,0-13.7,0-20.6,0-.9,0-1.4.2-1.8,1.2-1.4,3.6-5.4,5.2-8.9,3.6-3.3-1.5-4.8-5.5-3.3-8.8,1.5-3.4,5.6-4.8,9-3.1,1.6.8,2.7,2.1,3.3,3.8.2.5.2.9,1,.9,4.8,0,9.6,0,14.4,0,0,0,.1,0,.5-.4-.6-.4-1.1-.8-1.6-1.2-4.7-4.6-9.3-9.3-14-14-.6-.6-.9-.7-1.7-.3-2.9,1.4-6.3.5-8.2-2.1-1.8-2.5-1.6-6.1.6-8.4,2.2-2.3,5.8-2.8,8.4-1.1,2.7,1.7,3.8,5.2,2.5,8.1-.5,1-.3,1.5.5,2.2,5.3,5.3,10.6,10.5,15.8,15.9.9.9,1.8,1.4,3.1,1.2,2.3-.4,3.9.5,5.5,2.2,7.1,7.3,14.4,14.4,21.6,21.7.7.7,1.4,1,2.4,1,2.5,0,5.1,0,7.6,0,0-.1.2-.3.3-.4-2.1-2-4.2-3.9-6.2-6-10.9-10.9-21.8-21.7-32.6-32.6-.7-.7-1.2-.9-2.1-.5-2.8,1.3-6.2.2-7.9-2.4-1.9-2.8-1.5-6.2.9-8.6,2.2-2.2,5.7-2.5,8.4-.7,2.6,1.7,3.6,5.2,2.3,8.1-.5,1-.5,1.5.4,2.3,10.4,10.3,20.8,20.7,31.1,31.1,1.2,1.2,2.4,2.4,4,4,0-1.1,0-1.8,0-2.5,0-3.6,0-7.1,0-10.7,0-.7-.1-1.2-.7-1.7-3.4-3.3-6.7-6.7-10-10-.5-.5-.9-.5-1.6-.3-3,1.3-6.4.2-8.1-2.4-1.8-2.8-1.4-6.4,1.1-8.6,2.3-2.1,5.9-2.2,8.4-.3,2.6,2,3.4,5.4,1.8,8.4-.4.7-.3,1.1.3,1.7,3.5,3.4,6.9,6.9,10.4,10.4.6.6.8,1.1.8,2,0,5.1,0,10.3,0,15.4,0,.9.3,1.4.8,2.1,1.7,2.7,4.4,2.3,7,2.2.9,0,.6-.8.6-1.3,0-7.1,0-14.3,0-21.5,0-.3,0-.7,0-1,.1-.9-.2-1.3-1.1-1.6-3.1-1.1-4.8-4.2-4.2-7.5.6-3.1,3.3-5.3,6.5-5.3,3.2,0,5.9,2.2,6.6,5.4.6,3-1.1,6.2-4.1,7.3-1,.4-1.2.9-1.2,1.9,0,7.4,0,14.8,0,22.2,0,1.1.3,1.4,1.3,1.3,3.4,0,6.8,0,10.2,0,.9,0,1.1-.3,1.1-1.1,0-4.4,0-8.8,0-13.2,0-.8-.3-1-1-1.3-3.3-1.2-4.9-4.2-4.3-7.5.6-3.2,3.3-5.3,6.6-5.4,3,0,5.8,2.3,6.4,5.3.7,3.4-1,6.4-4.2,7.6-.8.3-1,.6-1,1.4,0,4.3,0,8.7,0,13,0,.8.2,1.1,1.1,1.1,13,0,26,0,39,0,.1,0,.3,0,.4,0,.1-.5-.3-.7-.5-.9-7.7-7.7-15.4-15.4-23.1-23.1-.6-.6-1.2-.8-2.1-.5-3.2,1-6.4-.4-7.9-3.3-1.4-2.8-.6-6.3,1.9-8.2,2.4-1.9,6.1-1.8,8.4.2,2.4,2.1,3,5.6,1.3,8.4-.5.8-.4,1.2.3,1.9,8.3,8.3,16.6,16.6,24.9,24.9.4.4.8.9,1.5.9,4.8,0,9.5,0,14.6,0-1.7-1.7-3.2-3.2-4.7-4.7-12.1-12.1-24.2-24.2-36.2-36.3-.7-.7-1.4-.9-2.3-.9-10.1,0-20.3,0-30.4,0-.8,0-1.3-.2-1.8-.8-2.9-3-5.9-5.9-8.8-8.8-.5-.5-1-.8-1.8-.8-5.4,0-10.8,0-16.3,0-.9,0-1.1.4-1.4,1.1-1,2.7-3.7,4.5-6.4,4.3-3.1-.2-5.5-2.2-6.2-5.1-.7-2.6.5-5.6,2.9-7.1,2.6-1.6,5.6-1.4,7.9.5.8.7,1.5,1.6,1.8,2.6.3,1.1.9,1.2,1.8,1.2,5.6,0,11.1,0,16.7,0,.9,0,1.6.3,2.2.9,2.9,2.9,5.8,5.8,8.7,8.7.4.4.9.7,1.6.7,9.4,0,18.8,0,28.2,0,.1-.1.2-.3.3-.4-.9-.8-1.8-1.5-2.7-2.3-2.6-2.6-5.2-5.2-7.8-7.8-.5-.6-1.1-.8-1.8-.8-4.7,0-9.4,0-14.2,0-.9,0-1.5-.2-2.1-.9-1.9-2-3.9-3.9-5.8-5.9-.6-.6-1-.7-1.8-.3-3.5,1.6-7.5,0-8.9-3.6-1.4-3.5.4-7.5,3.9-8.7,3.6-1.2,7.5.7,8.6,4.4.5,1.7.4,3.3-.4,4.9-.3.6-.2,1,.2,1.4,1.8,1.8,3.6,3.6,5.5,5.4.3.3.6.7,1.2.7.2,0,.4,0,.6,0,3.8,0,7.6,0,11.9,0-2.5-2.5-4.8-4.7-7-6.9-4.2-4.2-8.5-8.5-12.7-12.7-.6-.6-1.1-.8-1.9-.8-5,0-9.9,0-14.9,0-.9,0-1.6.3-2.2.9-5,5-10,10-15,15.1-.5.6-1.1.8-1.9.7-2.8,0-5.6,0-8.4,0-.9,0-1.3.2-1.7,1.2-1.1,3-4.2,4.7-7.3,4.2-3-.5-5.4-3.2-5.5-6.2,0-3.3,2-6.1,5-6.8,3.4-.8,6.7.9,7.9,4.2.3.7.6,1,1.4,1,2.6,0,5.2,0,7.9,0,.5,0,.9,0,1.3-.4,4.4-4.5,8.9-8.9,13.4-13.4,0,0,0-.2.1-.4Z"
+          />
+        </symbol>
+
+        <!-- br-c · ForestCityTechCoop_branch_3.svg (authentic logo branch) -->
+        <symbol id="br-c" viewBox="0 0 581 581">
+          <path
+            fill="currentColor"
+            d="M420.5,304.5c4,4,7.7,7.7,11.4,11.4,2.2,2.2,4.5,4.5,6.7,6.7.5.5,1.1.8,1.8.8,7.5,0,15,0,22.4,0,.9,0,1.3-.2,1.6-1.1,1.1-3.1,4.2-4.8,7.4-4.2,3.1.5,5.4,3.3,5.4,6.4,0,3.3-2.2,6.1-5.3,6.7-3.2.6-6.3-1-7.5-4.1-.4-1-.9-1.3-1.9-1.2-7.7,0-15.4,0-23.1,0-.9,0-1.5-.3-2.1-.9-6.5-6.5-13-13-19.5-19.6-.7-.7-1.3-1-2.3-1-23.8,0-47.6,0-71.4,0-.8,0-1.3.2-1.8.7-9.2,9.3-18.5,18.5-27.7,27.7-.7.7-1,1.4-1,2.3,0,38.7,0,77.4,0,116.1,0,.7.2,1.2.7,1.7,1.7,1.6,3.3,3.2,5,4.7.6.5.8,1.1.8,1.9,0,3.4,0,6.8,0,10.2,0,.5-.3,1.2.7,1.2.6,0,.4.5.4.9,0,9.2,0,18.3,0,27.5,0,.7-.2,1-.9,1-3.8.2-3.7.2-3.7-3.5,0-8.1,0-16.2,0-24.3,0-.6-.5-1.6.8-1.7.3,0,.2-.6.2-.9,0-3.2,0-6.4,0-9.7,0-.7-.3-1.1-.8-1.5-1.6-1.5-3.2-3.1-4.9-4.6-.6-.5-.9-1.1-.9-1.9,0-39.5,0-79,0-118.5,0-.8.3-1.4.8-1.9,20.8-20.8,41.6-41.6,62.4-62.3,14.6-14.6,29.1-29.2,43.7-43.7.8-.8.8-1.2,0-1.9-2.8-2.7-5.5-5.6-8.3-8.3-.6-.6-.9-1.3-.9-2.2,0-19.7,0-39.3,0-59,0-1-.3-1.4-1.2-1.8-3-1.1-4.7-4.3-4.1-7.5.6-3.1,3.4-5.4,6.6-5.3,3.1,0,5.8,2.3,6.4,5.3.6,3.3-1,6.4-4.1,7.5-.9.3-1.2.8-1.2,1.7,0,5.6,0,11.3,0,17.1.6-.2.9-.6,1.2-1,5.7-5.7,11.4-11.4,17.2-17.1.5-.5.6-1.1.6-1.7,0-4.6,0-9.3,0-13.9,0-1-.3-1.5-1.2-1.9-2.9-1.2-4.4-3.9-4.1-6.9.3-2.8,2.4-5.1,5.2-5.7,3.4-.7,6.7,1.3,7.7,4.7,1,3.2-.7,6.8-4,8-1,.4-1.2.8-1.2,1.8,0,5,0,10,0,15,0,.8-.2,1.4-.8,1.9-1.5,1.4-2.9,2.8-4.3,4.1.4.7.8.4,1.1.4,12.5,0,25,0,37.6,0,.8,0,1.2-.2,1.4-1,.9-3.2,3.9-5.1,7-4.8,3.2.4,5.7,3,5.9,6.1.2,3.2-1.8,6.1-4.9,6.9-3.1.8-6.4-.7-7.7-3.8-.4-.9-.8-1-1.7-1-13.5,0-26.9,0-40.4,0-.8,0-1.4.3-2,.8-4,4.1-8,8.1-12.1,12.1-.4.4-.8.7-.8,1.4,0,4.2,0,8.5,0,13.1,1.7-1.7,3.2-3.2,4.7-4.7,3.2-3.2,6.4-6.3,9.5-9.5.6-.6,1.2-.9,2.1-.8,8.6,0,17.2,0,25.8,0,.9,0,1.3-.2,1.7-1.1,1.1-3.2,4.2-4.8,7.5-4.2,2.9.6,5.3,3.4,5.3,6.4,0,3.2-2.2,6-5.3,6.6-3.1.6-6.3-1-7.4-4.1-.4-1-.9-1.2-1.8-1.2-8.2,0-16.4,0-24.5,0-.9,0-1.6.2-2.2.9-2.1,2.2-4.3,4.4-6.5,6.5-.6.6-.8.9,0,1.6,2.7,2.6,5.4,5.3,8,8,.5.5,1,.7,1.7.7,18.1,0,36.3,0,54.4,0,.9,0,1.2-.3,1.4-1.1,1.1-3.1,4.2-4.8,7.4-4.2,3.1.6,5.4,3.2,5.5,6.3,0,3.3-2.1,6.1-5.3,6.7-3.2.6-6.4-1-7.5-4-.4-1-.8-1.3-1.9-1.3-18.2,0-36.4,0-54.7,0-1,0-1.7-.3-2.5-1-2.8-2.8-5.6-5.6-8.4-8.5-.6-.7-1-.7-1.6,0-1.5,1.6-3.1,3.2-4.8,4.8-.4.4-.6.8-.6,1.3,0,6.1,0,12.1,0,18.2,0,0,0,.1.2.4,1.3-1.3,2.7-2.6,4-3.9.5-.5,1.1-1,1.6-1.6,1.4-1.9,3.2-2.3,5.4-2.3,16.8,0,33.6,0,50.5,0,1.3,0,2.2.4,3,1.3,5,5.1,10.1,10.1,15.1,15.2.6.6,1,.8,1.6,0,.9-1,1.9-2,2.9-2.9.5-.4.6-.8.2-1.4-1.5-3-.6-6.4,2-8.4,2.5-1.8,6.1-1.6,8.4.5,2.4,2.3,2.8,5.9,1,8.6-1.8,2.7-5.3,3.8-8.3,2.3-.9-.4-1.3-.3-1.9.4-1.4,1.5-3,3-4.4,4.5-.6.7-1,.6-1.5,0-5.5-5.5-11-11-16.5-16.6-.7-.7-1.4-1-2.3-1-16.8,0-33.6,0-50.5,0-1.1,0-1.8.3-2.6,1.1-1.9,2-3.9,4-5.9,5.9-.7.7-.7,1.1,0,1.7,2.3,2.2,4.5,4.4,6.6,6.6.6.7,1,.7,1.6,0,2.9-3,5.9-5.9,8.8-8.8.6-.6,1.1-.8,2-.8,12.5,0,25,0,37.6,0,.9,0,1.5.3,2.1.9,10.2,10.2,20.3,20.3,30.5,30.6.7.7,1.1.4,1.7,0,3.4-1.8,7.4-.5,9.1,2.8,1.7,3.3.3,7.3-3,9-3.3,1.7-7.2.3-8.9-3.1-.9-1.7-.9-3.5-.2-5.3.3-.6.2-1.1-.3-1.6-10.1-10.1-20.2-20.2-30.3-30.3-.4-.4-.8-.5-1.4-.5-12.1,0-24.1,0-36.2,0-.6,0-.9.2-1.3.6-10.5,10.5-21,21-31.5,31.5-11.4,11.4-22.9,22.8-34.3,34.3-6.6,6.6-13.1,13.2-19.7,19.7,0,0-.2.2-.3.3.3.4.7.2,1,.2,4.1,0,8.2,0,12.3,0,.8,0,1.3-.3,1.8-.8,13.8-13.9,27.7-27.7,41.5-41.5,10.2-10.2,20.4-20.3,30.5-30.5.6-.6,1.2-.6,1.9-.6,7.4,0,14.9,0,22.3,0,.8,0,1.3-.1,1.6-1,1.2-3.2,4.3-4.9,7.6-4.2,3.1.6,5.3,3.3,5.2,6.5,0,3.2-2.3,5.9-5.5,6.5-3.1.6-6.3-1.2-7.4-4.4-.3-.8-.6-.9-1.3-.9-7.3,0-14.6,0-21.9,0-.8,0-1.2.3-1.7.8-1,1.1-3,2.1-2.9,3.3,0,1.1,1.9,2.1,2.9,3.2,2.8,2.8,5.6,5.6,8.4,8.4.6.6,1.1.7,1.8.7,9.2,0,18.3,0,27.5,0,.8,0,1.2-.1,1.5-1,1.1-3.2,4.1-4.9,7.4-4.3,3.1.5,5.4,3.2,5.4,6.4,0,3.3-2.1,6-5.3,6.6-3.2.6-6.3-1-7.4-4.1-.4-1-.9-1.2-1.8-1.2-9.3,0-18.7,0-28,0-1,0-1.7-.3-2.3-1-3.8-3.8-7.6-7.6-11.4-11.4-.6-.7-1-.6-1.6,0-21.1,21.1-42.2,42.2-63.3,63.4-.2.2-.5.4-.6.8.4.3.8.1,1.2.1,5.7,0,11.3,0,17,0,.9,0,1.5-.3,2.1-.9,11.6-11.6,23.2-23.3,34.9-34.9.6-.6.7-.9.2-1.7-1.7-2.7-1.1-6.2,1.2-8.3,2.3-2.1,6-2.3,8.4-.5,2.6,1.9,3.5,5.4,2.1,8.3-1.3,2.8-4.6,4.4-7.6,3.5-1.3-.4-2,0-2.9.8-5.9,6-11.9,11.9-17.8,17.9-.3.3-.6.7-1.2,1.2,1,0,1.7,0,2.4,0,4.9,0,9.8,0,14.7,0,.8,0,1.4-.2,2.1-.8,7.4-7.5,14.9-14.9,22.3-22.4.7-.7,1.4-1,2.4-1,12.6,0,25.2,0,37.9,0,1,0,1.6,0,2-1.3,1.1-3.1,4.4-4.7,7.6-4,3,.7,5.2,3.5,5.1,6.5,0,3.2-2.3,5.9-5.5,6.5-3.1.6-6.2-1.2-7.4-4.3-.3-.8-.6-1-1.5-1-12.6,0-25.1,0-37.7,0-.7,0-1.1.2-1.6.7-7.6,7.6-15.2,15.2-22.8,22.8-.6.6-1.1.7-1.9.7-6.6,0-13.2,0-19.8,0-.6,0-1.1,0-1.7.5-3.6,3.7-7.3,7.3-10.9,10.9-.1.1-.2.3-.3.5.5.3,1,.1,1.4.1,13.6,0,27.1,0,40.7,0,1,0,1.7-.3,2.4-1,6.2-6.2,12.4-12.4,18.5-18.6.7-.7,1.3-1,2.3-1,13.5,0,26.9,0,40.4,0,1.4,0,2.3-.2,2.9-1.7,1.3-3,4.6-4.4,7.7-3.5,3.1.9,5,3.8,4.7,7.2-.3,3-2.9,5.5-6.1,5.8-2.9.3-5.7-1.5-6.7-4.3-.2-.6-.4-1.1-1.3-1.1-11.7,0-23.4,0-35,0-.2,0-.3,0-.9.1.8.8,1.5,1.3,2.1,1.9,2.7,2.6,5.3,5.3,7.9,7.9.5.5,1.1.8,1.8.8,13.3,0,26.6,0,40,0,.9,0,1.3-.2,1.6-1.1,1.1-3.1,4.2-4.8,7.4-4.2,3.2.6,5.5,3.3,5.5,6.5,0,3.2-2.2,6-5.4,6.6-3.1.6-6.3-1.1-7.4-4.2-.4-1-.8-1.1-1.7-1.1-13.6,0-27.1,0-40.7,0-1,0-1.7-.3-2.4-1-3.8-3.9-7.6-7.7-11.5-11.5-1.1-1.1-2.7-1.1-3.8,0-3.2,3.2-6.3,6.4-9.5,9.5-.7.6-.5.9,0,1.5,2.4,2.3,4.8,4.7,7.1,7.1.6.6,1.3.7,2,.7,10.4,0,20.7,0,31.1,0,1,0,1.6.3,2.3,1,4.6,4.7,9.3,9.3,13.9,13.9.6.6,1,.7,1.8.3,2.9-1.4,6.4-.5,8.2,2.1,1.9,2.7,1.6,6.3-.8,8.6-2.2,2.2-5.8,2.5-8.4.8-2.7-1.8-3.7-5.2-2.3-8.2.4-.9.3-1.3-.4-2-4.4-4.4-8.8-8.8-13.2-13.2-.6-.6-1.2-.9-2.1-.9-10.4,0-20.8,0-31.3,0-1,0-1.6-.3-2.3-1-2.4-2.5-5-4.9-7.4-7.5-.8-.8-1.2-.7-1.9,0-2,2.1-4,4-6,6.1-.6.6-1.2.8-2,.8-3.4,0-6.7,0-10.5,0Z"
+          />
+        </symbol>
+
+        <!-- br-d · ForestCityTechCoop_branch_4.svg (authentic logo branch) -->
+        <symbol id="br-d" viewBox="0 0 581 581">
+          <path
+            fill="currentColor"
+            d="M161.2,158.8c0-1.8,0-3.4,0-5.1,0-2.1,0-4.2,0-6.3,0-1.1-.2-1.6-1.3-2-2.9-1.1-4.4-3.9-4-7.1.3-2.8,2.6-5.1,5.5-5.6,2.8-.5,5.7,1,7,3.6,1.8,3.5,0,7.9-3.7,9.2-.8.3-1,.7-1,1.5,0,10.6,0,21.2,0,31.8,0,.5,0,1,.3,1.4,4.1,4.1,8.2,8.3,12.3,12.4.6-.4.4-.9.4-1.3,0-18.3,0-36.6,0-55,0-.8-.3-1.4-.8-1.9-6.6-6.6-13.2-13.1-19.7-19.7-.7-.7-1.2-1-2.4-.5-2.9,1.3-6.3.2-8-2.4-1.8-2.8-1.4-6.3,1-8.6,2.3-2.1,5.8-2.4,8.4-.5,2.6,1.9,3.5,5.3,2.1,8.2-.3.7-.3,1.1.3,1.7,2.1,2,4.2,4.1,6.3,6.2.5.5.8.5,1.3,0,7.9-7.9,15.7-15.7,23.6-23.6.6-.6.6-1,.3-1.7-1.4-3-.5-6.4,2.1-8.2,2.6-1.8,6.1-1.6,8.4.6,2.4,2.3,2.8,5.7,1,8.5-1.7,2.6-5.1,3.7-8,2.4-1-.4-1.5-.3-2.2.4-7.7,7.7-15.4,15.4-23.1,23.1-.7.7-.7,1,0,1.7,3.4,3.3,6.8,6.7,10.1,10.1.6.6.9.6,1.5,0,10.1-10.2,20.3-20.3,30.4-30.4.5-.5.6-1,.6-1.6,0-6.2,0-12.3,0-18.5,0-.7-.2-1.1-.9-1.4-3.2-1.2-5-4.3-4.3-7.5.7-3.4,3.4-5.4,6.9-5.3,3.2.1,5.8,2.6,6.2,6,.4,2.8-1.4,5.8-4.3,6.8-.9.3-1.1.7-1.1,1.6,0,6.2,0,12.4,0,18.6,0,1.3-.4,2.1-1.3,3-10.3,10.3-20.6,20.6-30.9,30.9-.5.5-.9.9-.9,1.8,0,15,0,30,0,45,0,.2,0,.4,0,.6.5.2.6-.3.9-.5,2.6-2.6,5.2-5.2,7.9-7.8.5-.5.7-1,.7-1.7,0-4.1,0-8.2,0-12.3,0-.8-.1-1.3-1.1-1.6-3.1-1.1-4.8-4.2-4.2-7.4.6-3.1,3.3-5.5,6.5-5.5,3.2,0,6,2.2,6.5,5.3.6,3.2-1.1,6.5-4.2,7.5-1,.3-1.1.8-1.1,1.7,0,4.4,0,8.8,0,13.2,0,.8-.2,1.4-.8,2-3.5,3.4-6.9,6.9-10.3,10.3-.6.6-.9,1.2-.9,2.1,0,10.2,0,20.5,0,30.7,0,.5,0,.9.3,1.3,2.9,2.8,5.7,5.7,8.6,8.6.3-.6.2-1,.2-1.5,0-8,0-16,0-24,0-.9-.2-1.3-1.1-1.6-3-1.1-4.7-4-4.2-7.2.4-2.9,3-5.3,6-5.5,3.2-.3,5.9,1.6,6.9,4.7,1,3.3-.8,6.9-4.1,8-.9.3-1.1.7-1.1,1.6,0,1.9,0,3.8,0,6.1,1.7-1.7,3.2-3.2,4.6-4.7,2-2,4-4.1,6-6,.6-.6.8-1.1.8-1.9,0-6.7,0-13.5,0-20.2,0-.9-.2-1.3-1.1-1.7-3.7-1.4-5.3-5.5-3.6-9,1.7-3.5,6-4.8,9.4-2.9,3.3,1.9,4.3,6.3,2.1,9.5-.8,1.1-1.7,2-3,2.3-1.1.3-1.2.9-1.2,1.8,0,7,0,14,0,21,0,.9-.2,1.6-.9,2.2-4.2,4.1-8.3,8.3-12.4,12.4-.5.5-.8,1.1-.8,1.8,0,5.4,0,10.8,0,16.3,0,.9.3,1.5.9,2.1,3.5,3.4,6.9,6.9,10.4,10.5.3-.5.2-.9.2-1.3,0-5.4,0-10.8,0-16.3,0-.8-.1-1.2-1-1.5-3-1-4.8-4.2-4.3-7.3.5-2.9,3.1-5.4,6.1-5.5,3.4-.1,6.2,1.8,7,5,.7,3-.7,6.3-3.7,7.5-1.4.6-1.6,1.3-1.6,2.6,0,6.1,0,12.2,0,18.4,0,.7.1,1.2.6,1.8,2.4,2.4,4.8,4.8,7.2,7.2.5.5.7.5,1.2,0,2.8-2.9,5.7-5.8,8.6-8.6.5-.5.5-1,.5-1.6,0-14.7,0-29.3,0-44,0-10.7,0-21.5,0-32.2,0-.8-.2-1.5-.8-2.1-7.2-7.2-14.4-14.4-21.6-21.6-.7-.7-1.2-.9-2.2-.5-3.1,1.3-6.4,0-8.2-2.7-1.7-2.7-1.1-6.2,1.3-8.4,2.4-2.1,5.8-2.2,8.5-.2,2.4,1.8,3.2,5.3,1.8,8.2-.3.6-.4,1,.2,1.5,6.8,6.8,13.6,13.5,20.3,20.3.1.1.3.2.4.3.4-.4.2-.8.2-1.2,0-7.7,0-15.3,0-23,0-.9-.3-1.3-1.1-1.6-3.1-1.2-4.8-4.3-4.2-7.5.6-3.1,3.4-5.3,6.7-5.3,3.1,0,5.8,2.4,6.4,5.5.6,3.1-1.2,6.3-4.3,7.4-1,.3-1,.9-1,1.7,0,19.1,0,38.2,0,57.3,0,16.3,0,32.5,0,48.8,0,1.1-.3,1.8-1.1,2.6-2.9,2.8-5.7,5.8-8.6,8.6-.6.6-.7.9,0,1.5,14.9,14.8,29.7,29.6,44.5,44.5,5.7,5.7,11.5,11.5,17.3,17.2.7.7,1,1.4,1,2.3,0,44.3,0,88.5,0,132.8,0,.9-.2,1.6-.8,2.3-1.5,1.9-3,4-4.5,5.9-.4.5-.6,1.1-.6,1.8,0,2.5,0,5,0,7.4,0,.6-.4,1.6.9,1.6.3,0,.2.6.2.9,0,9.1,0,18.2,0,27.3,0,.2,0,.5,0,.5-1.1,1.2-2.5.2-3.8.5-.7.1-.9-.3-.9-.9,0-.8,0-1.7,0-2.5,0-8.1,0-16.3,0-24.4,0-.6-.4-1.4.8-1.6.4,0,.2-.7.2-1,0-2.9,0-5.8,0-8.7,0-.7.2-1.3.6-1.9,1.3-1.7,2.5-3.4,3.8-5,1.1-1.3,1.4-2.6,1.4-4.2,0-43.2,0-86.5,0-129.7,0-1-.3-1.7-1-2.4-19.8-19.8-39.6-39.6-59.4-59.4-12.7-12.7-25.4-25.4-38.2-38.1-.6-.6-.9-1.2-.9-2.1,0-6.9,0-13.8,0-20.7,0-.9-.3-1.5-.9-2.2-4.6-4.6-9.2-9.2-13.8-13.8-.6-.6-.9-1.2-.9-2.1,0-5.2,0-10.5,0-15.7,0-.9-.2-1.6-.9-2.2-8.4-8.4-16.9-16.8-25.3-25.3-.6-.6-1-.8-1.9-.4-2.8,1.2-5.8.4-7.7-1.9-1.7-2.1-2-5.4-.6-7.6,1.6-2.5,4.4-3.7,7.1-3.1,2.9.7,5,3,5.2,6,.1,1.3-.1,2.5-.8,3.6-.3.5-.3.8.1,1.3,8,8,16.1,16,24.1,24.1,0,0,.2.1.5.3Z"
+          />
+        </symbol>
+
+        <!-- br-e · ForestCityTechCoop_branch_5.svg (authentic logo branch) -->
+        <symbol id="br-e" viewBox="0 0 581 581">
+          <path
+            fill="currentColor"
+            d="M338.7,243.3c5.2-5.2,10.1-10.1,15.1-15.1.5-.5.6-1.1.6-1.7,0-5,0-10.1,0-15.1,0-.9-.2-1.3-1.1-1.6-2.9-1.1-4.5-3.7-4.3-6.8.2-2.8,2.3-5.2,5.1-5.8,3-.7,5.9.6,7.4,3.3,1.4,2.4.9,5.6-1,7.8-.6.7-1.4,1.3-2.3,1.5-1.1.3-1.3.9-1.2,1.9,0,5.2,0,10.4,0,15.6,0,1.1-.3,1.9-1.1,2.7-5.5,5.4-11,11-16.5,16.4-.5.5-.7,1-.7,1.7,0,10.5,0,21,0,31.5,0,.2,0,.5,0,.7.5,0,.7-.3.9-.6,16.8-16.8,33.6-33.6,50.4-50.3.7-.7.7-1,0-1.7-7.7-7.6-15.3-15.2-22.9-22.9-.6-.6-.9-1.2-.8-2.1,0-13.8,0-27.6,0-41.4,0-1.1-.2-1.7-1.4-2.1-2.8-1-4.5-4.2-3.9-7.3.5-3,3.2-5.3,6.3-5.4,3.2-.1,5.9,1.9,6.7,5,.8,3-.6,6.3-3.3,7.4-1.7.7-1.9,1.6-1.9,3.1,0,13.1,0,26.3,0,39.4,0,1,.2,1.7.9,2.3,2.1,2,4.2,4.1,6.2,6.2.6.6.9.7,1.5,0,2.2-2.3,4.5-4.5,6.7-6.7.5-.5.7-.9.6-1.6,0-8.5,0-16.9,0-25.4,0-.9-.3-1.2-1.1-1.5-3.2-1.2-4.9-4.4-4.1-7.6.8-3.3,3.6-5.4,7-5.2,3.3.2,5.7,2.7,6.1,6.1.3,2.8-1.4,5.7-4.2,6.6-1.1.4-1.3.9-1.3,1.9,0,8.4,0,16.8,0,25.2,0,1.3-.4,2.3-1.3,3.2-2.3,2.2-4.4,4.4-6.7,6.6-.7.6-.8,1,0,1.7,4.2,4.1,8.4,8.3,12.5,12.5.7.7,1,.5,1.6,0,2.7-2,3.4-4.6,3.4-7.9-.2-19.1,0-38.1,0-57.2,0-1.2-.4-2.1-1.2-2.9-20.3-20.2-40.5-40.5-60.8-60.7-.6-.6-.8-1.2-.8-2.1,0-6.4,0-12.9,0-19.3,0-.9-.1-1.4-1.1-1.7-3.2-1.2-4.9-4.4-4.2-7.7.7-3.1,3.5-5.2,6.8-5.1,3.1,0,5.8,2.5,6.3,5.6.5,3.2-1.3,6.2-4.5,7.3-.7.2-.8.6-.8,1.2,0,6.4,0,12.7,0,19.1,0,1,.6,1.5,1.2,2.1q2.2,2.2,4.4,0c5.7-5.7,11.4-11.4,17.2-17.1.7-.7,1-1.1.5-2.2-1.5-2.8-.6-6.3,2-8.3,2.5-1.8,6-1.6,8.4.5,2.3,2.1,2.8,5.6,1.2,8.3-1.7,2.8-4.9,3.9-8,2.8-.9-.4-1.5-.2-2.1.5-6.2,6.2-12.3,12.4-18.5,18.6-.6.6-1.1.9-.2,1.9,14,13.9,27.9,27.9,41.9,41.8,0,0,.2.2.3.3.4-.2.2-.7.2-1,0-6,0-12,0-17.9,0-.7-.2-1.2-.7-1.7-5.6-5.6-11.2-11.1-16.8-16.7-.5-.5-.9-.5-1.5-.2-2.7,1.3-5.9.8-7.8-1.3-2-2.2-2.4-5.3-.9-7.9,1.4-2.5,4.4-3.8,7.2-3.2,2.8.7,4.9,3.1,5.2,6.1,0,1.1-.1,2.2-.7,3.3-.2.4-.5.8,0,1.2.5.4.9.9,1.4,1.4,1.9,1.9,3.7,3.8,5.9,6,0-2,0-3.6,0-5.1,0-2.9,0-5.8,0-8.7,0-.8-.2-1.1-1-1.4-3.2-1.1-4.9-4.2-4.3-7.5.6-3.2,3.4-5.5,6.7-5.4,3.2,0,5.8,2.4,6.4,5.6.5,3.1-1.3,6.2-4.4,7.3-.8.3-1,.6-1,1.4,0,5.1,0,10.2,0,15.3,0,.7.2,1.1.7,1.6,2.4,2.4,4.8,4.8,7.2,7.2.6.6.8,1.1.8,2,0,7.1,0,14.2,0,21.3,0,1,.3,1.7,1,2.4,2.7,2.7,5.4,5.4,8.1,8.1.5-.4.3-.8.3-1.2,0-17.7,0-35.4,0-53.1,0-1-.2-1.5-1.3-1.9-3.1-1.1-4.7-4.2-4.1-7.4.5-3,3.4-5.3,6.5-5.3,3.2,0,5.8,2.2,6.5,5.3.7,3.1-.9,6.2-3.9,7.4-1.1.4-1.3.9-1.3,2,0,10.1,0,20.3,0,30.4,0,.4,0,.8,0,1.2.6,0,.7-.3,1-.6,6.5-6.5,13.1-13.1,19.6-19.6.6-.6.8-1.1.4-2-1.3-3-.3-6.4,2.3-8.2,2.7-1.8,6.2-1.4,8.5.9,2.2,2.2,2.5,5.7.7,8.3-1.8,2.7-5.2,3.7-8.2,2.3-.9-.4-1.4-.3-2.1.4-7.1,7.1-14.2,14.2-21.3,21.3-.7.7-1,1.4-1,2.4,0,28.1,0,56.2,0,84.3,0,.9-.2,1.6-.8,2.2-6.3,6.2-12.6,12.5-18.8,18.8-8.7,8.7-17.4,17.4-26.1,26.1-9.3,9.3-18.6,18.6-27.8,27.8-7.5,7.5-15.1,15.1-22.6,22.6-.4.4-.7.9-.6,1.5,0,.7,0,1.3,0,2,0,42.8,0,85.6,0,128.4,0,.8.2,1.3.7,1.9,1.8,2.2,3.5,4.5,5.2,6.8.5.6.7,1.2.7,2,0,2.6,0,5.2,0,7.9,0,.5-.1,1,.7,1,.6,0,.4.5.4.9,0,9.2,0,18.4,0,27.6,0,.7-.3.8-.9.9-3.8.2-3.8.2-3.8-3.6,0-8,0-16.1,0-24.1,0-.7-.5-1.7.9-1.8.3,0,.2-.6.2-.9,0-2.4,0-4.9,0-7.3,0-.7-.2-1.1-.6-1.6-1.8-2.3-3.5-4.6-5.3-6.9-.5-.6-.7-1.2-.7-1.9,0-44,0-88,0-132.1,0-.8.3-1.4.9-1.9,11.5-11.5,22.9-22.9,34.4-34.4.6-.6.9-1.3.9-2.2,0-18,0-36.1,0-54.1,0-.8-.2-1.1-1-1.3-3.3-1.1-5.1-4.5-4.3-8,.7-3,3.9-5.3,6.9-4.9,3.6.4,6.1,3.1,6.2,6.6,0,2.7-1.7,5.2-4.5,6.2-.6.2-.9.4-.9,1.1,0,5,0,9.9,0,14.9,0,.2,0,.4,0,.9Z"
+          />
+        </symbol>
+      </defs>
+    </svg>
+
+    <!-- ================= HEADER ================= -->
+    <header class="site-header" id="siteHeader">
+      <div class="wrap header-inner">
+        <a class="brand" href="#top" aria-label="Forest City Tech Coop home">
+          <span class="mark" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#fff"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="4.5" r="1.9" fill="#fff" stroke="none" />
+              <circle cx="6" cy="14" r="1.9" fill="#fff" stroke="none" />
+              <circle cx="18" cy="14" r="1.9" fill="#fff" stroke="none" />
+              <circle cx="12" cy="20.5" r="1.4" fill="#fff" stroke="none" />
+              <path
+                d="M12 6.4v4.4M12 10.8L6.6 13.2M12 10.8l5.4 2.4M12 10.8v8.3"
+              />
+            </svg>
+          </span>
+          <span class="brand-name">Forest City Tech Coop</span>
+        </a>
+
+        <nav class="site-nav" id="siteNav">
+          <a href="../scanned_sketches/fctc-wire-about.pdf">Our Story</a>
+          <a href="../scanned_sketches/fctc-wire-portfolio.pdf">Our Work</a>
+          <a
+            href="../scanned_sketches/fctc-wire-contact.pdf"
+            class="site-nav__cta"
+            >Get in touch</a
+          >
+        </nav>
+
+        <div class="header-cta">
+          <a
+            href="../scanned_sketches/fctc-wire-contact.pdf"
+            class="btn btn-primary"
+            >Get in touch</a
+          >
+          <button
+            class="nav-toggle"
+            id="navToggle"
+            aria-label="Toggle menu"
+            aria-expanded="false"
+            aria-controls="siteNav"
+          >
+            <svg
+              class="icon-open"
+              viewBox="0 0 22 22"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <path d="M3 6h16M3 11h16M3 16h16" />
+            </svg>
+            <svg
+              class="icon-close"
+              viewBox="0 0 22 22"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <path d="M5 5l12 12M17 5L5 17" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- ================= HERO ================= -->
+      <section class="hero">
+        <div class="branchfield" aria-hidden="true">
+          <svg
+            class="macro macro--left branch--green-soft"
+            viewBox="225 55 330 330"
+            preserveAspectRatio="xMidYMid slice"
+            style="opacity: 0.09"
+          >
+            <use href="#br-a" width="581" height="581" />
+          </svg>
+        </div>
+        <div class="wrap hero-inner">
+          <p class="overline">Worker-owned tech cooperative</p>
+          <h1>We build technology with our community — and for it.</h1>
+          <p>
+            Forest City Tech Coop helps nonprofits, small businesses, and
+            neighbors put good tools online — sites and software you actually
+            own, without the lock-in or the sales pitch.
+          </p>
+          <div class="hero-actions">
+            <a
+              href="../scanned_sketches/fctc-wire-contact.pdf"
+              class="btn btn-primary"
+              >Get in touch</a
+            >
+            <a
+              href="../scanned_sketches/fctc-wire-portfolio.pdf"
+              class="btn btn-ondark"
+              >See our work</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SERVICES ================= -->
+      <section class="section services" id="services">
+        <div class="branchfield" aria-hidden="true">
+          <svg
+            class="macro macro--right branch--green"
+            viewBox="70 120 300 300"
+            preserveAspectRatio="xMaxYMin slice"
+            style="opacity: 0.085"
+          >
+            <use href="#br-b" width="581" height="581" />
+          </svg>
+        </div>
+        <div class="wrap">
+          <div class="section-head">
+            <p class="overline">What we do</p>
+            <h2>Practical help, start to finish</h2>
+            <p>
+              We're a small team, so we keep things honest and hands-on. Here's
+              where we can usually lend a hand.
+            </p>
+          </div>
+          <div class="service-grid">
+            <div class="service-card">
+              <div class="service-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                  />
+                </svg>
+              </div>
+              <h3>Advice, honestly</h3>
+              <p>
+                Not sure what you need yet? We'll talk it through and point you
+                the right way — no pressure, no jargon.
+              </p>
+            </div>
+            <div class="service-card">
+              <div class="service-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="3" y="4" width="18" height="14" rx="2" />
+                  <path d="M3 9h18M8 21h8" />
+                </svg>
+              </div>
+              <h3>Websites &amp; web apps</h3>
+              <p>
+                Accessible, maintainable sites built on open tools — designed to
+                be handed over, not held hostage.
+              </p>
+            </div>
+            <div class="service-card">
+              <div class="service-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+                  />
+                </svg>
+              </div>
+              <h3>Hosting &amp; migration</h3>
+              <p>
+                Move off a legacy platform onto something you can host, afford,
+                and manage yourselves.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= WORK ================= -->
+      <section class="section work" id="work">
+        <div class="branchfield" aria-hidden="true">
+          <svg
+            class="macro macro--left branch--green-deep"
+            viewBox="230 70 300 300"
+            preserveAspectRatio="xMinYMax slice"
+            style="opacity: 0.085"
+          >
+            <use href="#br-a" width="581" height="581" />
+          </svg>
+        </div>
+        <div class="wrap">
+          <div class="section-head">
+            <p class="overline">Recent work</p>
+            <h2>A little of what we've made</h2>
+            <p>
+              Two Cleveland Heights community organizations we've helped put
+              down roots online.
+            </p>
+          </div>
+
+          <div class="work-grid">
+            <a
+              class="work-card"
+              href="https://gatherwellch.org/"
+              target="_blank"
+              rel="noopener"
+            >
+              <div class="work-media">
+                <img
+                  src="assets/gatherwell.jpg"
+                  alt="Gather Well Cleveland Heights homepage"
+                  loading="lazy"
+                />
+                <span class="work-badge">nonprofit</span>
+              </div>
+              <div class="work-body">
+                <p class="overline">Community building</p>
+                <h3>Gather Well Cleveland Heights</h3>
+                <p>
+                  A website and podcast for a neighbor-led nonprofit helping
+                  residents move from proximity to real relationships.
+                </p>
+                <span class="work-visit">Visit the site →</span>
+              </div>
+            </a>
+            <a
+              class="work-card"
+              href="https://cofahouse.com/"
+              target="_blank"
+              rel="noopener"
+            >
+              <div class="work-media">
+                <img
+                  src="assets/cofahouse.jpg"
+                  alt="Cofa House homepage"
+                  loading="lazy"
+                />
+                <span class="work-badge">arts</span>
+              </div>
+              <div class="work-body">
+                <p class="overline">Community + arts</p>
+                <h3>Cofa House</h3>
+                <p>
+                  A home on the web for a collective that feeds local artists
+                  with shared dinners, gatherings, and a short film.
+                </p>
+                <span class="work-visit">Visit the site →</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ABOUT ================= -->
+      <section class="section about" id="about">
+        <div class="branchfield" aria-hidden="true">
+          <svg
+            class="macro macro--right branch--green"
+            viewBox="70 120 320 320"
+            preserveAspectRatio="xMidYMid slice"
+            style="opacity: 0.095"
+          >
+            <use href="#br-b" width="581" height="581" />
+          </svg>
+        </div>
+        <div class="wrap about-inner">
+          <div>
+            <p class="overline">About the coop</p>
+            <h2>
+              Technology should serve the community, not the other way around.
+            </h2>
+            <p>
+              We're a small, worker-owned cooperative. We believe everyone
+              deserves access to the power of technology — and the freedom to
+              use it on their own terms.
+            </p>
+            <p>
+              That shapes how we work: open tools, plain language, and no
+              surprises. When a project ends, you own what we built together.
+            </p>
+            <a
+              href="../scanned_sketches/fctc-wire-contact.pdf"
+              class="btn btn-outline"
+              style="margin-top: 8px"
+              >Work with us</a
+            >
+          </div>
+          <div class="principles">
+            <div class="principle">
+              <span class="principle-dot"></span>
+              <div>
+                <strong>Open source</strong
+                ><span>Built on tools anyone can inspect and keep.</span>
+              </div>
+            </div>
+            <div class="principle">
+              <span class="principle-dot"></span>
+              <div>
+                <strong>Community-first</strong
+                ><span>Local needs come before growth for its own sake.</span>
+              </div>
+            </div>
+            <div class="principle">
+              <span class="principle-dot"></span>
+              <div>
+                <strong>Freedom from surveillance</strong
+                ><span>No tracking baked in, by default.</span>
+              </div>
+            </div>
+            <div class="principle">
+              <span class="principle-dot"></span>
+              <div>
+                <strong>Cooperatively owned</strong
+                ><span>Run by the people who do the work.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="site-footer" id="contact">
+      <div class="branchfield" aria-hidden="true">
+        <svg
+          class="macro macro--left branch--green"
+          viewBox="225 55 330 330"
+          preserveAspectRatio="xMaxYMid slice"
+          style="opacity: 0.08"
+        >
+          <use href="#br-a" width="581" height="581" />
+        </svg>
+      </div>
+      <div class="wrap">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <div class="brand">
+              <span class="mark mark--lg" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#fff"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="4.5" r="1.9" fill="#fff" stroke="none" />
+                  <circle cx="6" cy="14" r="1.9" fill="#fff" stroke="none" />
+                  <circle cx="18" cy="14" r="1.9" fill="#fff" stroke="none" />
+                  <circle cx="12" cy="20.5" r="1.4" fill="#fff" stroke="none" />
+                  <path
+                    d="M12 6.4v4.4M12 10.8L6.6 13.2M12 10.8l5.4 2.4M12 10.8v8.3"
+                  />
+                </svg>
+              </span>
+              <span class="brand-name">Forest City Tech Coop</span>
+            </div>
+            <p>
+              A worker-owned cooperative building open, community-first
+              technology.
+            </p>
+            <p class="mono">info@forestcitytechcoop.org</p>
+          </div>
+          <div class="footer-col">
+            <h4>Explore</h4>
+            <a href="fctc-home.html">Home</a>
+            <a href="../scanned_sketches/fctc-wire-about.pdf">Our Story</a>
+            <a href="../scanned_sketches/fctc-wire-portfolio.pdf">Our Work</a>
+            <a href="../scanned_sketches/fctc-wire-contact.pdf">Contact</a>
+          </div>
+          <div class="footer-col">
+            <h4>Get involved</h4>
+            <a href="#">Become a member</a>
+            <a href="#">Volunteer</a>
+            <a href="#">Our principles</a>
+            <a href="#">Newsletter</a>
+          </div>
+        </div>
+        <div class="circuit-divider" aria-hidden="true"></div>
+        <div class="footer-bottom">
+          <span>© 2026 Forest City Tech Coop · worker-owned</span>
+          <span>open-source · cooperative · community-first</span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile nav toggle
+      (function () {
+        var header = document.getElementById("siteHeader");
+        var btn = document.getElementById("navToggle");
+        if (header && btn) {
+          btn.addEventListener("click", function () {
+            var open = header.classList.toggle("is-open");
+            btn.setAttribute("aria-expanded", String(open));
+          });
+          header.querySelectorAll("#siteNav a").forEach(function (a) {
+            a.addEventListener("click", function () {
+              header.classList.remove("is-open");
+              btn.setAttribute("aria-expanded", "false");
+            });
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

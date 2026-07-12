@@ -1,0 +1,5 @@
+.DS_Store
+.claude/settings.local.json
+
+# Contains live MCP auth tokens - never commit. See .mcp.json.example.
+.mcp.json

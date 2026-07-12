@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FCTC — Global Elements (Wireframe)</title>
+    <style>
+      /* ---- Wireframe design tokens (shared with home mock) ---- */
+      :root {
+        --ink: #333;
+        --line: #9a9a9a;
+        --line-strong: #4a4a4a;
+        --fill: #f2f2f2;
+        --fill-alt: #e7e7e7;
+        --bar: #c9c9c9;
+        --bar-strong: #9a9a9a;
+        --radius: 4px;
+        --maxw: 1080px;
+        --font:
+          ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+          sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 24px 20px 64px;
+        font-family: var(--font);
+        color: var(--ink);
+        background: #fbfbfb;
+        line-height: 1.4;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 0 auto;
+      }
+
+      /* ---- Wireframe primitives ---- */
+      .box {
+        border: 1.5px dashed var(--line);
+        border-radius: var(--radius);
+        background: var(--fill);
+      }
+      .media {
+        position: relative;
+        display: grid;
+        place-items: center;
+        background:
+          linear-gradient(
+            to top right,
+            transparent calc(50% - 1px),
+            var(--line) 50%,
+            transparent calc(50% + 1px)
+          ),
+          linear-gradient(
+            to bottom right,
+            transparent calc(50% - 1px),
+            var(--line) 50%,
+            transparent calc(50% + 1px)
+          ),
+          var(--fill-alt);
+      }
+      .media span {
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #777;
+        background: rgba(255, 255, 255, 0.75);
+        padding: 1px 6px;
+        border-radius: 3px;
+      }
+      .bar {
+        height: 12px;
+        background: var(--bar);
+        border-radius: 3px;
+      }
+
+      /* region caption above each global block */
+      .region-caption {
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #888;
+        margin: 0 0 8px 2px;
+      }
+      .region-caption:not(:first-child) {
+        margin-top: 36px;
+      }
+
+      /* nav link placeholders */
+      .navlink {
+        height: 12px;
+        width: 68px;
+        background: var(--bar);
+        border-radius: 3px;
+      }
+
+      /* =====================================================
+       HEADER
+    ===================================================== */
+      .site-header {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 16px 22px;
+        background: #fff;
+        border: 2px solid var(--line-strong);
+        border-radius: var(--radius);
+      }
+      .wordmark {
+        width: 128px;
+        height: 40px;
+        flex: none;
+      }
+      .site-nav {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+      }
+      /* hamburger / close toggle — hidden on wide */
+      .nav-toggle {
+        display: none;
+        width: 42px;
+        height: 42px;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--line-strong);
+        border-radius: var(--radius);
+        background: var(--fill-alt);
+        color: var(--line-strong);
+        cursor: pointer;
+        flex: none;
+      }
+      .nav-toggle svg {
+        width: 20px;
+        height: 20px;
+        display: block;
+      }
+      .nav-toggle .icon-close {
+        display: none;
+      }
+      .site-header.is-open .nav-toggle .icon-open {
+        display: none;
+      }
+      .site-header.is-open .nav-toggle .icon-close {
+        display: block;
+      }
+
+      /* =====================================================
+       BODY (vague placeholder)
+    ===================================================== */
+      .body-area {
+        margin-top: 24px;
+        min-height: 360px;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        border: 2px dashed var(--line);
+        border-radius: var(--radius);
+        background: repeating-linear-gradient(
+          -45deg,
+          transparent 0 14px,
+          rgba(154, 154, 154, 0.06) 14px 28px
+        );
+        color: #999;
+      }
+      .body-area h2 {
+        margin: 0;
+        font-size: 15px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #888;
+      }
+      .body-area p {
+        margin: 8px 0 0;
+        font-size: 13px;
+        color: #aaa;
+      }
+
+      /* =====================================================
+       FOOTER
+    ===================================================== */
+      .site-footer {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 48px;
+        padding: 32px 28px;
+        background: #fff;
+        border: 2px solid var(--line-strong);
+        border-radius: var(--radius);
+      }
+      .footer__logo {
+        width: 180px;
+        height: 140px;
+        flex: none;
+      }
+      .footer__nav {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        align-items: flex-end;
+      }
+      .footer__nav .navlink {
+        width: 120px;
+      }
+
+      /* =====================================================
+       NARROW VIEWPORT  (≤ 720px)
+    ===================================================== */
+      @media (max-width: 720px) {
+        /* Header: nav collapses behind the toggle */
+        .nav-toggle {
+          display: flex;
+        }
+        .site-nav {
+          position: absolute;
+          top: calc(100% + 6px);
+          left: 0;
+          right: 0;
+          z-index: 5;
+          display: none; /* hidden until opened (CSS-driven) */
+          flex-direction: column;
+          align-items: stretch;
+          gap: 12px;
+          padding: 18px 22px;
+          background: #fff;
+          border: 2px solid var(--line-strong);
+          border-radius: var(--radius);
+        }
+        .site-header.is-open .site-nav {
+          display: flex;
+        }
+        .site-nav .navlink {
+          width: 100%;
+        }
+
+        /* Footer: stack logo above nav */
+        .site-footer {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 24px;
+        }
+        .footer__logo {
+          width: 100%;
+        }
+        .footer__nav {
+          align-items: stretch;
+        }
+        .footer__nav .navlink {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <!-- ================= HEADER ================= -->
+      <p class="region-caption">Header — global</p>
+      <header class="site-header" id="siteHeader">
+        <div class="box media wordmark"><span>Wordmark</span></div>
+
+        <button
+          class="nav-toggle"
+          id="navToggle"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+          aria-controls="siteNav"
+        >
+          <svg class="icon-open" viewBox="0 0 20 20" aria-hidden="true">
+            <path
+              d="M2 5h16M2 10h16M2 15h16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+          <svg class="icon-close" viewBox="0 0 20 20" aria-hidden="true">
+            <path
+              d="M4 4l12 12M16 4L4 16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+
+        <nav class="site-nav" id="siteNav">
+          <span class="navlink"></span>
+          <span class="navlink"></span>
+          <span class="navlink"></span>
+          <span class="navlink"></span>
+        </nav>
+      </header>
+
+      <!-- ================= BODY (vague) ================= -->
+      <p class="region-caption">Body — per-page content</p>
+      <main class="body-area">
+        <div>
+          <h2>Page Body</h2>
+          <p>(page-specific content lives here)</p>
+        </div>
+      </main>
+
+      <!-- ================= FOOTER ================= -->
+      <p class="region-caption">Footer — global</p>
+      <footer class="site-footer">
+        <div class="box media footer__logo"><span>Logo</span></div>
+        <nav class="footer__nav">
+          <span class="navlink"></span>
+          <span class="navlink"></span>
+          <span class="navlink"></span>
+        </nav>
+      </footer>
+    </div>
+
+    <script>
+      // Mobile nav toggle — swaps hamburger/close and reveals the hidden nav.
+      (function () {
+        var header = document.getElementById("siteHeader");
+        var btn = document.getElementById("navToggle");
+        if (!header || !btn) return;
+        btn.addEventListener("click", function () {
+          var open = header.classList.toggle("is-open");
+          btn.setAttribute("aria-expanded", String(open));
+        });
+      })();
+    </script>
+  </body>
+</html>

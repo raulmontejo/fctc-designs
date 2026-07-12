@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FCTC Brand Kit — Style Tile v1.0</title>
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=inter:400,500,600|jetbrains-mono:400,500|plus-jakarta-sans:500,600,700,800&display=swap" rel="stylesheet">
+<style>
+  /* ── Tokens inlined ─────────────────────────────── */
+  :root {
+    --green-50:#f4fae9;--green-100:#e5f2d0;--green-200:#cce5a8;
+    --green-300:#add876;--green-400:#96ca51;--green-500:#79a83c;
+    --green-600:#5e842e;--green-700:#486727;--green-800:#3b5223;
+    --green-900:#334620;--green-950:#19260c;
+    --neutral-50:#faf9f7;--neutral-100:#f2f0ec;--neutral-200:#e4e1db;
+    --neutral-300:#cfcbc3;--neutral-400:#b2ada3;--neutral-500:#908a80;
+    --neutral-600:#746e65;--neutral-700:#5d5851;--neutral-800:#4a4540;
+    --neutral-900:#3a3835;--neutral-950:#252220;
+    --amber-50:#fdf8ee;--amber-100:#f9ecd0;--amber-200:#f2d6a0;
+    --amber-300:#e9bc66;--amber-400:#e3a63c;--amber-500:#d28e24;
+    --amber-600:#ba711c;--amber-700:#9b551b;--amber-800:#7e441d;
+    --amber-900:#68391b;--amber-950:#3c1c0b;
+    --white:#ffffff;
+    --font-display:'Plus Jakarta Sans','Avenir Next',system-ui,sans-serif;
+    --font-body:'Inter','Helvetica Neue',system-ui,sans-serif;
+    --font-mono:'JetBrains Mono','Fira Code',ui-monospace,monospace;
+    --radius-md:8px;--radius-lg:12px;--radius-xl:16px;
+    --shadow-sm:0 1px 3px rgba(37,34,32,.08),0 1px 2px rgba(37,34,32,.04);
+    --shadow-md:0 4px 6px rgba(37,34,32,.07),0 2px 4px rgba(37,34,32,.04);
+  }
+
+  /* ── Reset & base ───────────────────────────────── */
+  *,*::before,*::after{box-sizing:border-box;margin:0}
+  body{
+    font-family:var(--font-body);
+    color:var(--neutral-950);
+    background:var(--neutral-50);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ── Layout ─────────────────────────────────────── */
+  .page{max-width:1080px;margin:0 auto;padding:48px 32px 96px}
+  .section{margin-bottom:64px}
+  .section-label{
+    font-family:var(--font-mono);
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--neutral-500);
+    margin-bottom:8px;
+  }
+  .section-title{
+    font-family:var(--font-display);
+    font-size:24px;
+    font-weight:700;
+    color:var(--neutral-950);
+    margin-bottom:24px;
+    letter-spacing:-0.02em;
+  }
+  .section-note{
+    font-size:14px;
+    color:var(--neutral-600);
+    max-width:620px;
+    margin-bottom:24px;
+    line-height:1.6;
+  }
+
+  /* ── Header ─────────────────────────────────────── */
+  .header{
+    display:flex;
+    align-items:center;
+    gap:24px;
+    padding-bottom:40px;
+    border-bottom:1px solid var(--neutral-200);
+    margin-bottom:64px;
+  }
+  .header-logo{
+    width:72px;height:72px;
+    border-radius:50%;
+    overflow:hidden;
+    flex-shrink:0;
+    background:var(--green-400);
+  }
+  .header-logo img{width:100%;height:100%;object-fit:cover}
+  .header-text h1{
+    font-family:var(--font-display);
+    font-size:28px;font-weight:800;
+    letter-spacing:-0.03em;
+    color:var(--neutral-950);
+  }
+  .header-text p{
+    font-size:14px;color:var(--neutral-500);
+    font-family:var(--font-mono);
+    margin-top:4px;
+  }
+
+  /* ── Color swatches ─────────────────────────────── */
+  .palette-row{margin-bottom:20px}
+  .palette-label{
+    font-family:var(--font-mono);font-size:12px;
+    font-weight:500;color:var(--neutral-600);
+    margin-bottom:8px;text-transform:capitalize;
+  }
+  .swatches{display:flex;gap:0;border-radius:var(--radius-lg);overflow:hidden}
+  .swatch{
+    flex:1;min-width:0;
+    aspect-ratio:1;
+    min-height:52px;
+    position:relative;
+    cursor:pointer;
+    transition:transform 150ms ease;
+  }
+  .swatch:hover{transform:scaleY(1.15);z-index:1}
+  .swatch-info{
+    position:absolute;bottom:0;left:0;right:0;
+    padding:4px 6px;
+    font-family:var(--font-mono);font-size:9px;
+    line-height:1.3;
+    opacity:0;transition:opacity 150ms ease;
+    pointer-events:none;
+  }
+  .swatch:hover .swatch-info{opacity:1}
+  .swatch-info.light{color:var(--neutral-950)}
+  .swatch-info.dark{color:var(--white)}
+
+  /* ── Semantic colors ────────────────────────────── */
+  .semantic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+  .semantic-card{
+    padding:16px;border-radius:var(--radius-md);
+    border:1px solid var(--neutral-200);
+    background:var(--white);
+  }
+  .semantic-sample{
+    width:100%;height:40px;
+    border-radius:6px;margin-bottom:10px;
+  }
+  .semantic-name{font-family:var(--font-mono);font-size:11px;color:var(--neutral-600)}
+  .semantic-token{font-family:var(--font-mono);font-size:10px;color:var(--neutral-400);margin-top:2px}
+
+  /* ── Typography ─────────────────────────────────── */
+  .type-specimen{margin-bottom:32px}
+  .type-meta{
+    font-family:var(--font-mono);font-size:11px;
+    color:var(--neutral-400);margin-bottom:6px;
+  }
+  .type-sample-display{font-family:var(--font-display);letter-spacing:-0.02em}
+  .type-sample-body{font-family:var(--font-body)}
+  .type-sample-mono{font-family:var(--font-mono)}
+
+  .type-scale{display:grid;gap:16px}
+  .type-scale-row{
+    display:grid;
+    grid-template-columns:80px 1fr;
+    align-items:baseline;
+    gap:16px;
+    padding:10px 0;
+    border-bottom:1px solid var(--neutral-100);
+  }
+  .type-scale-label{
+    font-family:var(--font-mono);font-size:11px;color:var(--neutral-400);
+    padding-top:4px;
+  }
+
+  /* ── Components ─────────────────────────────────── */
+  .component-row{
+    display:flex;flex-wrap:wrap;gap:12px;align-items:center;
+    margin-bottom:24px;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 20px;
+    font-family:var(--font-body);font-size:14px;font-weight:500;
+    border-radius:var(--radius-md);border:none;cursor:pointer;
+    transition:all 150ms ease;line-height:1.4;
+  }
+  .btn-primary{background:var(--green-400);color:var(--white)}
+  .btn-primary:hover{background:var(--green-500)}
+  .btn-secondary{background:var(--neutral-100);color:var(--neutral-900);border:1px solid var(--neutral-200)}
+  .btn-secondary:hover{background:var(--neutral-200)}
+  .btn-accent{background:var(--amber-400);color:var(--white)}
+  .btn-accent:hover{background:var(--amber-500)}
+  .btn-outline{background:transparent;color:var(--green-700);border:1.5px solid var(--green-400)}
+  .btn-outline:hover{background:var(--green-50)}
+  .btn-ghost{background:transparent;color:var(--green-700)}
+  .btn-ghost:hover{background:var(--green-50)}
+  .btn-sm{padding:6px 14px;font-size:13px}
+  .btn-lg{padding:14px 28px;font-size:16px}
+
+  .card{
+    background:var(--white);border:1px solid var(--neutral-200);
+    border-radius:var(--radius-lg);padding:24px;
+    box-shadow:var(--shadow-sm);max-width:360px;
+  }
+  .card-overline{
+    font-family:var(--font-mono);font-size:11px;
+    letter-spacing:0.05em;text-transform:uppercase;
+    color:var(--green-600);margin-bottom:8px;font-weight:500;
+  }
+  .card h3{
+    font-family:var(--font-display);font-size:18px;
+    font-weight:700;margin-bottom:8px;letter-spacing:-0.01em;
+  }
+  .card p{font-size:14px;color:var(--neutral-600);line-height:1.6;margin-bottom:16px}
+
+  .input-group{max-width:320px;margin-bottom:8px}
+  .input-label{
+    display:block;font-size:13px;font-weight:500;
+    color:var(--neutral-700);margin-bottom:6px;
+  }
+  .input{
+    width:100%;padding:10px 14px;font-size:14px;
+    font-family:var(--font-body);
+    border:1.5px solid var(--neutral-300);
+    border-radius:var(--radius-md);
+    background:var(--white);color:var(--neutral-950);
+    outline:none;transition:border-color 150ms ease;
+  }
+  .input:focus{border-color:var(--green-400);box-shadow:0 0 0 3px rgba(150,202,81,0.15)}
+  .input::placeholder{color:var(--neutral-400)}
+
+  .badge{
+    display:inline-flex;align-items:center;
+    padding:3px 10px;border-radius:9999px;
+    font-family:var(--font-mono);font-size:11px;font-weight:500;
+  }
+  .badge-green{background:var(--green-50);color:var(--green-700);border:1px solid var(--green-200)}
+  .badge-amber{background:var(--amber-50);color:var(--amber-700);border:1px solid var(--amber-200)}
+  .badge-neutral{background:var(--neutral-100);color:var(--neutral-700);border:1px solid var(--neutral-200)}
+
+  /* ── PCB decoration preview ─────────────────────── */
+  .pcb-demo{
+    background:var(--neutral-950);
+    border-radius:var(--radius-lg);
+    padding:48px 32px;
+    position:relative;
+    overflow:hidden;
+    margin-top:16px;
+  }
+  .pcb-demo-text{
+    position:relative;z-index:1;
+    text-align:center;
+  }
+  .pcb-demo-text h3{
+    font-family:var(--font-display);font-size:24px;
+    font-weight:700;color:var(--white);
+    margin-bottom:8px;letter-spacing:-0.02em;
+  }
+  .pcb-demo-text p{
+    font-family:var(--font-body);font-size:14px;
+    color:var(--neutral-400);max-width:480px;margin:0 auto;
+  }
+  .pcb-branch{
+    position:absolute;
+    opacity:0.08;
+    pointer-events:none;
+  }
+  .pcb-branch.left{
+    left:-40px;top:-20px;width:280px;height:280px;
+    transform:rotate(-15deg);
+  }
+  .pcb-branch.right{
+    right:-60px;bottom:-30px;width:320px;height:320px;
+    transform:rotate(165deg);
+  }
+
+  /* ── Spacing preview ────────────────────────────── */
+  .space-bar-row{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+  .space-label{
+    font-family:var(--font-mono);font-size:11px;color:var(--neutral-400);
+    width:70px;text-align:right;flex-shrink:0;
+  }
+  .space-bar{
+    height:16px;background:var(--green-200);
+    border-radius:3px;
+    transition:background 150ms ease;
+  }
+  .space-bar:hover{background:var(--green-400)}
+  .space-px{font-family:var(--font-mono);font-size:10px;color:var(--neutral-400);width:40px;flex-shrink:0}
+
+  /* ── Radius preview ─────────────────────────────── */
+  .radius-grid{display:flex;flex-wrap:wrap;gap:16px}
+  .radius-sample{
+    width:72px;height:72px;
+    background:var(--green-100);
+    border:2px solid var(--green-400);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-mono);font-size:10px;color:var(--green-700);
+  }
+
+  /* ── Utilities ──────────────────────────────────── */
+  .divider{
+    border:none;border-top:1px solid var(--neutral-200);
+    margin:48px 0;
+  }
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+  @media(max-width:720px){.two-col{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-logo">
+      <img src="ForestCityTechCoop.png" alt="FCTC Logo" onerror="this.style.display='none'">
+    </div>
+    <div class="header-text">
+      <h1>Forest City Tech Coop</h1>
+      <p>brand kit v1.0 · june 2026</p>
+    </div>
+  </div>
+
+  <!-- ── COLORS ──────────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">01 Color</div>
+    <div class="section-title">Palette</div>
+    <div class="section-note">
+      Three scales derived from the logo. Green is the brand anchor, warm neutrals carry the text and structure, and amber brings earth-tone warmth for accents and calls to action.
+    </div>
+
+    <div class="palette-row">
+      <div class="palette-label">Green (Primary)</div>
+      <div class="swatches">
+        <div class="swatch" style="background:#f4fae9"><div class="swatch-info light">50<br>#f4fae9</div></div>
+        <div class="swatch" style="background:#e5f2d0"><div class="swatch-info light">100<br>#e5f2d0</div></div>
+        <div class="swatch" style="background:#cce5a8"><div class="swatch-info light">200<br>#cce5a8</div></div>
+        <div class="swatch" style="background:#add876"><div class="swatch-info light">300<br>#add876</div></div>
+        <div class="swatch" style="background:#96ca51"><div class="swatch-info light">400 ★<br>#96ca51</div></div>
+        <div class="swatch" style="background:#79a83c"><div class="swatch-info dark">500<br>#79a83c</div></div>
+        <div class="swatch" style="background:#5e842e"><div class="swatch-info dark">600<br>#5e842e</div></div>
+        <div class="swatch" style="background:#486727"><div class="swatch-info dark">700<br>#486727</div></div>
+        <div class="swatch" style="background:#3b5223"><div class="swatch-info dark">800<br>#3b5223</div></div>
+        <div class="swatch" style="background:#334620"><div class="swatch-info dark">900<br>#334620</div></div>
+        <div class="swatch" style="background:#19260c"><div class="swatch-info dark">950<br>#19260c</div></div>
+      </div>
+    </div>
+
+    <div class="palette-row">
+      <div class="palette-label">Warm Neutral</div>
+      <div class="swatches">
+        <div class="swatch" style="background:#faf9f7"><div class="swatch-info light">50<br>#faf9f7</div></div>
+        <div class="swatch" style="background:#f2f0ec"><div class="swatch-info light">100<br>#f2f0ec</div></div>
+        <div class="swatch" style="background:#e4e1db"><div class="swatch-info light">200<br>#e4e1db</div></div>
+        <div class="swatch" style="background:#cfcbc3"><div class="swatch-info light">300<br>#cfcbc3</div></div>
+        <div class="swatch" style="background:#b2ada3"><div class="swatch-info light">400<br>#b2ada3</div></div>
+        <div class="swatch" style="background:#908a80"><div class="swatch-info dark">500<br>#908a80</div></div>
+        <div class="swatch" style="background:#746e65"><div class="swatch-info dark">600<br>#746e65</div></div>
+        <div class="swatch" style="background:#5d5851"><div class="swatch-info dark">700<br>#5d5851</div></div>
+        <div class="swatch" style="background:#4a4540"><div class="swatch-info dark">800<br>#4a4540</div></div>
+        <div class="swatch" style="background:#3a3835"><div class="swatch-info dark">900<br>#3a3835</div></div>
+        <div class="swatch" style="background:#252220"><div class="swatch-info dark">950<br>#252220</div></div>
+      </div>
+    </div>
+
+    <div class="palette-row">
+      <div class="palette-label">Amber (Accent)</div>
+      <div class="swatches">
+        <div class="swatch" style="background:#fdf8ee"><div class="swatch-info light">50<br>#fdf8ee</div></div>
+        <div class="swatch" style="background:#f9ecd0"><div class="swatch-info light">100<br>#f9ecd0</div></div>
+        <div class="swatch" style="background:#f2d6a0"><div class="swatch-info light">200<br>#f2d6a0</div></div>
+        <div class="swatch" style="background:#e9bc66"><div class="swatch-info light">300<br>#e9bc66</div></div>
+        <div class="swatch" style="background:#e3a63c"><div class="swatch-info light">400<br>#e3a63c</div></div>
+        <div class="swatch" style="background:#d28e24"><div class="swatch-info dark">500<br>#d28e24</div></div>
+        <div class="swatch" style="background:#ba711c"><div class="swatch-info dark">600<br>#ba711c</div></div>
+        <div class="swatch" style="background:#9b551b"><div class="swatch-info dark">700<br>#9b551b</div></div>
+        <div class="swatch" style="background:#7e441d"><div class="swatch-info dark">800<br>#7e441d</div></div>
+        <div class="swatch" style="background:#68391b"><div class="swatch-info dark">900<br>#68391b</div></div>
+        <div class="swatch" style="background:#3c1c0b"><div class="swatch-info dark">950<br>#3c1c0b</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Semantic colors -->
+  <div class="section">
+    <div class="section-label">01b Color</div>
+    <div class="section-title">Semantic Assignments</div>
+    <div class="semantic-grid">
+      <div class="semantic-card">
+        <div class="semantic-sample" style="background:var(--green-400)"></div>
+        <div class="semantic-name">Primary / Brand</div>
+        <div class="semantic-token">--bg-primary → green-400</div>
+      </div>
+      <div class="semantic-card">
+        <div class="semantic-sample" style="background:var(--amber-400)"></div>
+        <div class="semantic-name">Accent / Warmth</div>
+        <div class="semantic-token">--bg-accent → amber-400</div>
+      </div>
+      <div class="semantic-card">
+        <div class="semantic-sample" style="background:var(--neutral-50);border:1px solid var(--neutral-200)"></div>
+        <div class="semantic-name">Page Background</div>
+        <div class="semantic-token">--bg-page → neutral-50</div>
+      </div>
+      <div class="semantic-card">
+        <div class="semantic-sample" style="background:#3f8f36"></div>
+        <div class="semantic-name">Success</div>
+        <div class="semantic-token">--status-success → #3f8f36</div>
+      </div>
+      <div class="semantic-card">
+        <div class="semantic-sample" style="background:var(--amber-600)"></div>
+        <div class="semantic-name">Warning</div>
+        <div class="semantic-token">--status-warning → amber-600</div>
+      </div>
+      <div class="semantic-card">
+        <div class="semantic-sample" style="background:#c43326"></div>
+        <div class="semantic-name">Error</div>
+        <div class="semantic-token">--status-error → #c43326</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── TYPOGRAPHY ───────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">02 Typography</div>
+    <div class="section-title">Type System</div>
+    <div class="section-note">
+      Three faces, each with a role. Plus Jakarta Sans carries the personality at large sizes. Inter handles everything at reading size. JetBrains Mono provides the tech accent — used for labels, data, code references, and the occasional overline.
+    </div>
+
+    <div class="type-specimen">
+      <div class="type-meta">Plus Jakarta Sans · Display / Headings · 700–800</div>
+      <div class="type-sample-display" style="font-size:42px;font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-bottom:8px">
+        Empowering local tech
+      </div>
+      <div class="type-sample-display" style="font-size:28px;font-weight:700;letter-spacing:-0.02em;color:var(--neutral-700)">
+        Community-driven solutions
+      </div>
+    </div>
+
+    <div class="type-specimen">
+      <div class="type-meta">Inter · Body / UI · 400–600</div>
+      <div class="type-sample-body" style="font-size:16px;line-height:1.6;max-width:560px;color:var(--neutral-700)">
+        Our mission at Forest City Tech Coop is to empower local community businesses and cooperatives by providing comprehensive and accessible tech solutions. We believe all people have the right to access the power and potential of technology.
+      </div>
+    </div>
+
+    <div class="type-specimen">
+      <div class="type-meta">JetBrains Mono · Code / Labels / Tech accent · 400–500</div>
+      <div class="type-sample-mono" style="font-size:14px;color:var(--green-700);line-height:1.6">
+        open-source · cooperative · community-first<br>
+        <span style="color:var(--neutral-400)">info@forestcitytechcoop.org</span>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-label">02b Typography</div>
+    <div class="section-title">Scale</div>
+    <div class="type-scale">
+      <div class="type-scale-row">
+        <div class="type-scale-label">5xl / 48px</div>
+        <div class="type-sample-display" style="font-size:48px;font-weight:800;line-height:1.1;letter-spacing:-0.03em">Forest City</div>
+      </div>
+      <div class="type-scale-row">
+        <div class="type-scale-label">4xl / 36px</div>
+        <div class="type-sample-display" style="font-size:36px;font-weight:700;line-height:1.15;letter-spacing:-0.025em">Tech Coop</div>
+      </div>
+      <div class="type-scale-row">
+        <div class="type-scale-label">3xl / 30px</div>
+        <div class="type-sample-display" style="font-size:30px;font-weight:700;line-height:1.2;letter-spacing:-0.02em">Our Mission</div>
+      </div>
+      <div class="type-scale-row">
+        <div class="type-scale-label">2xl / 24px</div>
+        <div class="type-sample-display" style="font-size:24px;font-weight:700;line-height:1.25;letter-spacing:-0.015em">Community Values</div>
+      </div>
+      <div class="type-scale-row">
+        <div class="type-scale-label">xl / 20px</div>
+        <div class="type-sample-display" style="font-size:20px;font-weight:600;line-height:1.3">Become a Contributor</div>
+      </div>
+      <div class="type-scale-row">
+        <div class="type-scale-label">lg / 18px</div>
+        <div class="type-sample-body" style="font-size:18px;line-height:1.5">Technology should serve the community, not the other way around.</div>
+      </div>
+      <div class="type-scale-row">
+        <div class="type-scale-label">base / 16px</div>
+        <div class="type-sample-body" style="font-size:16px;line-height:1.5">We seek to deepen our relationships with each other and everyone we work with.</div>
+      </div>
+      <div class="type-scale-row">
+        <div class="type-scale-label">sm / 14px</div>
+        <div class="type-sample-body" style="font-size:14px;line-height:1.5;color:var(--neutral-600)">Freedom from surveillance, freedom to customize and manage solutions.</div>
+      </div>
+      <div class="type-scale-row">
+        <div class="type-scale-label">xs / 12px</div>
+        <div class="type-sample-mono" style="font-size:12px;line-height:1.4;color:var(--neutral-500)">v1.0 · fctc-brand-tokens.css</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── COMPONENTS ───────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">03 Components</div>
+    <div class="section-title">Reference Elements</div>
+
+    <div style="margin-bottom:32px">
+      <div class="palette-label" style="margin-bottom:12px">Buttons</div>
+      <div class="component-row">
+        <button class="btn btn-primary">Get Started</button>
+        <button class="btn btn-secondary">Learn More</button>
+        <button class="btn btn-outline">Contact Us</button>
+        <button class="btn btn-ghost">Read More →</button>
+      </div>
+      <div class="component-row">
+        <button class="btn btn-primary btn-sm">Small</button>
+        <button class="btn btn-primary">Default</button>
+        <button class="btn btn-primary btn-lg">Large</button>
+        <button class="btn btn-accent">Join the Coop</button>
+      </div>
+    </div>
+
+    <div style="margin-bottom:32px">
+      <div class="palette-label" style="margin-bottom:12px">Badges</div>
+      <div class="component-row">
+        <span class="badge badge-green">open source</span>
+        <span class="badge badge-amber">in progress</span>
+        <span class="badge badge-neutral">draft</span>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-bottom:32px">
+      <div>
+        <div class="palette-label" style="margin-bottom:12px">Card</div>
+        <div class="card">
+          <div class="card-overline">web development</div>
+          <h3>Community Site Refresh</h3>
+          <p>Migrating a local nonprofit from a legacy CMS to a modern, accessible stack with cooperative ownership of the platform.</p>
+          <button class="btn btn-primary btn-sm">View Project</button>
+        </div>
+      </div>
+      <div>
+        <div class="palette-label" style="margin-bottom:12px">Form Input</div>
+        <div class="input-group">
+          <label class="input-label">Email address</label>
+          <input class="input" type="email" placeholder="you@example.com">
+        </div>
+        <div style="height:16px"></div>
+        <div class="input-group">
+          <label class="input-label">Message</label>
+          <textarea class="input" rows="3" placeholder="Tell us about your project…" style="resize:vertical"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── SPACING ──────────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">04 Spacing</div>
+    <div class="section-title">Scale (4px base)</div>
+    <div>
+      <div class="space-bar-row"><div class="space-label">--space-1</div><div class="space-bar" style="width:4px"></div><div class="space-px">4px</div></div>
+      <div class="space-bar-row"><div class="space-label">--space-2</div><div class="space-bar" style="width:8px"></div><div class="space-px">8px</div></div>
+      <div class="space-bar-row"><div class="space-label">--space-3</div><div class="space-bar" style="width:12px"></div><div class="space-px">12px</div></div>
+      <div class="space-bar-row"><div class="space-label">--space-4</div><div class="space-bar" style="width:16px"></div><div class="space-px">16px</div></div>
+      <div class="space-bar-row"><div class="space-label">--space-6</div><div class="space-bar" style="width:24px"></div><div class="space-px">24px</div></div>
+      <div class="space-bar-row"><div class="space-label">--space-8</div><div class="space-bar" style="width:32px"></div><div class="space-px">32px</div></div>
+      <div class="space-bar-row"><div class="space-label">--space-12</div><div class="space-bar" style="width:48px"></div><div class="space-px">48px</div></div>
+      <div class="space-bar-row"><div class="space-label">--space-16</div><div class="space-bar" style="width:64px"></div><div class="space-px">64px</div></div>
+      <div class="space-bar-row"><div class="space-label">--space-24</div><div class="space-bar" style="width:96px"></div><div class="space-px">96px</div></div>
+      <div class="space-bar-row"><div class="space-label">--space-32</div><div class="space-bar" style="width:128px"></div><div class="space-px">128px</div></div>
+    </div>
+  </div>
+
+  <!-- ── RADIUS ───────────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">05 Shape</div>
+    <div class="section-title">Border Radius</div>
+    <div class="radius-grid">
+      <div class="radius-sample" style="border-radius:4px">4px</div>
+      <div class="radius-sample" style="border-radius:8px">8px</div>
+      <div class="radius-sample" style="border-radius:12px">12px</div>
+      <div class="radius-sample" style="border-radius:16px">16px</div>
+      <div class="radius-sample" style="border-radius:24px">24px</div>
+      <div class="radius-sample" style="border-radius:9999px">full</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── PCB DECORATION ───────────────────────────── -->
+  <div class="section">
+    <div class="section-label">06 Signature Element</div>
+    <div class="section-title">PCB Branch Decoration</div>
+    <div class="section-note">
+      Extracted branch fragments from the logo SVG, used at low opacity as environmental texture along page edges, section dividers, or hero backgrounds. The traces and pads echo the circuit-tree motif without competing with content.
+    </div>
+    <div class="pcb-demo">
+      <svg class="pcb-branch left" viewBox="0 0 581 581" fill="currentColor" style="color:var(--green-400)">
+        <path d="M304.2,149.4c5.7-5.8,11.2-11.3,16.7-16.7.4-.4.5-.8.5-1.4,0-9.2,0-18.4,0-27.6,0-1-.6-1-1.2-1.2-2.9-1.2-4.6-3.9-4.2-7,.3-2.9,2.6-5.2,5.7-5.7,3.2-.5,6.4,1.5,7.2,4.6,1,3.5-.6,6.9-3.8,8-1,.4-1.3.8-1.3,1.9,0,9.3,0,18.5,0,27.8,0,.9-.3,1.5-.9,2.1-6,6-12,12-18.1,18-.6.6-.9,1.2-.9,2.1,0,2.5,0,4.9,0,7.4l.4.2c2.1-2.1,4.1-4.3,6.2-6.4,7.9-7.9,15.8-15.8,23.7-23.7.6-.6.9-1,.4-2-1.4-3-.4-6.2,2.3-8.2,2.4-1.7,6-1.5,8.3.6,2.3,2.1,2.8,5.6,1.1,8.5-1.6,2.6-4.9,3.8-7.8,2.6-1.3-.5-2-.2-2.9.7-10.2,10.3-20.5,20.5-30.7,30.7-.6.6-.9,1.2-.9,2.1,0,2.1,0,4.3,0,6.4,0,.6,0,1.1.5,1.5,3.3,3.3,6.5,6.5,9.8,9.8" />
+      </svg>
+      <svg class="pcb-branch right" viewBox="0 0 581 581" fill="currentColor" style="color:var(--green-400)">
+        <path d="M119,210.1c-11.2,0-22.3,0-33.3,0-.9,0-1.2.4-1.4,1.1-1.2,3.1-4.3,4.8-7.5,4.2-3.2-.6-5.3-3.3-5.3-6.6,0-3.3,2.4-6,5.7-6.5,3-.5,6,1.2,7,4.1.4,1,.9,1.2,1.8,1.2,7,0,14.1,0,21.5,0-1.5-1.5-2.8-2.8-4.1-4.1-3.8-3.8-7.5-7.5-11.3-11.3-.8-.8-1.3-1-2.5-.5-3,1.3-6.4.2-8.1-2.5" />
+      </svg>
+      <div class="pcb-demo-text">
+        <h3>Technology rooted in community</h3>
+        <p>Branch SVGs from the logo, rendered at low opacity as ambient texture. Works on dark or light backgrounds.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;padding:20px;background:var(--white);border:1px solid var(--neutral-200);border-radius:var(--radius-lg)">
+      <div class="palette-label" style="margin-bottom:8px">PCB token reference</div>
+      <div class="type-sample-mono" style="font-size:13px;color:var(--neutral-700);line-height:2">
+        --pcb-trace: var(--neutral-900);&nbsp;&nbsp;&nbsp;/* trace lines */<br>
+        --pcb-pad: var(--white);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/* pad fill */<br>
+        --pcb-pad-ring: var(--neutral-600); /* pad outline */<br>
+        --pcb-substrate: var(--green-400);&nbsp; /* board color */
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── NOTES ────────────────────────────────────── -->
+  <div class="section" style="margin-bottom:0">
+    <div class="section-label">Notes</div>
+    <div class="section-title">Design Rationale</div>
+    <div style="font-size:14px;color:var(--neutral-600);line-height:1.7;max-width:620px">
+      <p style="margin-bottom:12px"><strong style="color:var(--neutral-900)">Why green-400 as the anchor</strong> — The logo green (#96ca51) is naturally bright and sits at the lighter end of a typical scale. Placing it at 400 gives us usable darker values (500–700) for hover states and text that pass WCAG AA contrast on white backgrounds.</p>
+      <p style="margin-bottom:12px"><strong style="color:var(--neutral-900)">Why warm neutrals</strong> — The logo's dark fills (#3a3b3a, #231f20) have a slight warm cast. The neutral scale matches that warmth rather than going blue-gray, reinforcing the approachable, community-first feel.</p>
+      <p style="margin-bottom:12px"><strong style="color:var(--neutral-900)">Why amber</strong> — A golden earth tone complements the yellow-green primary without clashing. It gives the palette grounding and warmth beyond what green alone conveys — think growing things, sunlight, soil.</p>
+      <p><strong style="color:var(--neutral-900)">Dark mode</strong> — The CSS tokens file includes a <code style="font-family:var(--font-mono);font-size:13px;background:var(--neutral-100);padding:2px 6px;border-radius:4px">prefers-color-scheme: dark</code> override that swaps semantic tokens while keeping primitives intact. Ready to use if the site needs it.</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
