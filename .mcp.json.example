@@ -1,8 +1,8 @@
 {
   "mcpServers": {
-    "penpot": {
+    "figma": {
       "transport": "http",
-      "url": "https://design.penpot.app/mcp/stream?userToken=YOUR_PENPOT_TOKEN_HERE"
+      "url": "https://mcp.figma.com/mcp"
     }
   }
 }
