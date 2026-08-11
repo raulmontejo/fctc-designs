@@ -1,0 +1,289 @@
+/* ==========================================================
+   FCTC Brand Tokens v1.0
+   Forest City Tech Coop — Design System Foundation
+   June 2026
+
+   Load fonts before this file:
+   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+   ========================================================== */
+
+:root {
+
+  /* --------------------------------------------------------
+     PRIMITIVE TOKENS
+     Raw palette values. Reference from semantic tokens.
+     -------------------------------------------------------- */
+
+  /* Green — anchored to logo green #96ca51
+     400 = brand green (surfaces, buttons, badges)
+     500+ = darkened for hover, active, text-on-white          */
+  --green-50:  #f4fae9;
+  --green-100: #e5f2d0;
+  --green-200: #cce5a8;
+  --green-300: #add876;
+  --green-400: #96ca51;
+  --green-500: #79a83c;
+  --green-600: #5e842e;
+  --green-700: #486727;
+  --green-800: #3b5223;
+  --green-900: #334620;
+  --green-950: #19260c;
+
+  /* Warm Neutral — from logo dark #3a3b3a / #231f20
+     Slightly warm undertone through the scale.               */
+  --neutral-50:  #faf9f7;
+  --neutral-100: #f2f0ec;
+  --neutral-200: #e4e1db;
+  --neutral-300: #cfcbc3;
+  --neutral-400: #b2ada3;
+  --neutral-500: #908a80;
+  --neutral-600: #746e65;
+  --neutral-700: #5d5851;
+  --neutral-800: #4a4540;
+  --neutral-900: #3a3835;
+  --neutral-950: #252220;
+
+  /* Amber — earth accent for community warmth               */
+  --amber-50:  #fdf8ee;
+  --amber-100: #f9ecd0;
+  --amber-200: #f2d6a0;
+  --amber-300: #e9bc66;
+  --amber-400: #e3a63c;
+  --amber-500: #d28e24;
+  --amber-600: #ba711c;
+  --amber-700: #9b551b;
+  --amber-800: #7e441d;
+  --amber-900: #68391b;
+  --amber-950: #3c1c0b;
+
+  --white: #ffffff;
+
+
+  /* --------------------------------------------------------
+     SEMANTIC TOKENS
+     Purpose-based. Use these in components. Swap for theming.
+     -------------------------------------------------------- */
+
+  /* Backgrounds */
+  --bg-page:            var(--neutral-50);
+  --bg-surface:         var(--white);
+  --bg-surface-raised:  var(--neutral-100);
+  --bg-surface-sunken:  var(--neutral-200);
+  --bg-primary:         var(--green-400);
+  --bg-primary-hover:   var(--green-500);
+  --bg-primary-active:  var(--green-600);
+  --bg-primary-subtle:  var(--green-50);
+  --bg-accent:          var(--amber-400);
+  --bg-accent-hover:    var(--amber-500);
+  --bg-accent-subtle:   var(--amber-50);
+  --bg-inverse:         var(--neutral-950);
+
+  /* Text
+     text-primary on bg-page → neutral-950 on neutral-50 ≈ 14:1
+     text-brand on bg-page  → green-700 on neutral-50   ≈  6:1 (AA)
+     text-accent on bg-page → amber-700 on neutral-50   ≈  5:1 (AA) */
+  --text-primary:    var(--neutral-950);
+  --text-secondary:  var(--neutral-600);
+  --text-tertiary:   var(--neutral-400);
+  --text-inverse:    var(--white);
+  --text-brand:      var(--green-700);
+  --text-accent:     var(--amber-700);
+  --text-link:       var(--green-700);
+  --text-link-hover: var(--green-600);
+  --text-on-primary: var(--white);
+
+  /* Borders */
+  --border-default:  var(--neutral-200);
+  --border-strong:   var(--neutral-300);
+  --border-brand:    var(--green-400);
+  --border-focus:    var(--green-500);
+
+  /* Status / Semantic */
+  --status-success:     #3f8f36;
+  --status-success-bg:  #eef7ec;
+  --status-success-border: #b8ddb3;
+  --status-warning:     var(--amber-600);
+  --status-warning-bg:  var(--amber-50);
+  --status-warning-border: var(--amber-200);
+  --status-error:       #c43326;
+  --status-error-bg:    #fdeeed;
+  --status-error-border: #f1b8b3;
+  --status-info:        #2972a8;
+  --status-info-bg:     #ecf3fa;
+  --status-info-border: #aacce6;
+
+
+  /* --------------------------------------------------------
+     TYPOGRAPHY
+
+     Plus Jakarta Sans — display/headings
+       Geometric humanist: friendly rounded terminals,
+       good at large sizes. The personality carrier.
+
+     Inter — body/UI
+       Exceptional legibility at text sizes, well-kerned.
+       Workhorse that stays out of the way.
+
+     JetBrains Mono — code/data/tech accent
+       The "tech" in Tech Coop. Use for inline code,
+       data labels, technical terms, subtle tech flavor.
+     -------------------------------------------------------- */
+
+  --font-display: 'Plus Jakarta Sans', 'Avenir Next', system-ui, sans-serif;
+  --font-body:    'Inter', 'Helvetica Neue', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+
+  /* Type scale */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+  --text-5xl:  3rem;
+
+  /* Line height */
+  --leading-none:    1;
+  --leading-tight:   1.2;
+  --leading-snug:    1.35;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.65;
+
+  /* Weight */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+  --weight-extrabold: 800;
+
+  /* Tracking */
+  --tracking-tight:   -0.025em;
+  --tracking-normal:   0em;
+  --tracking-wide:     0.025em;
+  --tracking-wider:    0.05em;
+  --tracking-widest:   0.1em;
+
+
+  /* --------------------------------------------------------
+     SPACING — 4px base
+     -------------------------------------------------------- */
+  --space-0:   0;
+  --space-px:  1px;
+  --space-0.5: 0.125rem;
+  --space-1:   0.25rem;
+  --space-1.5: 0.375rem;
+  --space-2:   0.5rem;
+  --space-3:   0.75rem;
+  --space-4:   1rem;
+  --space-5:   1.25rem;
+  --space-6:   1.5rem;
+  --space-8:   2rem;
+  --space-10:  2.5rem;
+  --space-12:  3rem;
+  --space-16:  4rem;
+  --space-20:  5rem;
+  --space-24:  6rem;
+  --space-32:  8rem;
+
+
+  /* --------------------------------------------------------
+     BORDER RADIUS
+     Slightly rounded for approachability —
+     not sharp, not pill-shaped.
+     -------------------------------------------------------- */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-2xl:  24px;
+  --radius-full: 9999px;
+
+
+  /* --------------------------------------------------------
+     SHADOWS — warm-tinted, using neutral-950 as base
+     -------------------------------------------------------- */
+  --shadow-xs:  0 1px 2px rgba(37, 34, 32, 0.05);
+  --shadow-sm:  0 1px 3px rgba(37, 34, 32, 0.08),
+                0 1px 2px rgba(37, 34, 32, 0.04);
+  --shadow-md:  0 4px 6px rgba(37, 34, 32, 0.07),
+                0 2px 4px rgba(37, 34, 32, 0.04);
+  --shadow-lg:  0 10px 15px rgba(37, 34, 32, 0.08),
+                0 4px 6px rgba(37, 34, 32, 0.03);
+  --shadow-xl:  0 20px 25px rgba(37, 34, 32, 0.08),
+                0 8px 10px rgba(37, 34, 32, 0.03);
+
+
+  /* --------------------------------------------------------
+     TRANSITIONS
+     -------------------------------------------------------- */
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in:      cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:     cubic-bezier(0, 0, 0.2, 1);
+  --ease-bounce:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast:    100ms;
+  --duration-normal:  200ms;
+  --duration-slow:    350ms;
+  --duration-slower:  500ms;
+
+
+  /* --------------------------------------------------------
+     LAYOUT
+     -------------------------------------------------------- */
+  --width-content:  72rem;    /* 1152px — main content max */
+  --width-narrow:   48rem;    /* 768px  — text-heavy sections */
+  --width-wide:     90rem;    /* 1440px — full-bleed container */
+
+  /* PCB decorative elements — colors pulled from logo */
+  --pcb-trace:     var(--neutral-900);
+  --pcb-pad:       var(--white);
+  --pcb-pad-ring:  var(--neutral-600);
+  --pcb-substrate: var(--green-400);
+}
+
+
+/* ==========================================================
+   DARK MODE OVERRIDES
+   Swap semantic tokens. Primitives stay the same.
+   ========================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-page:            var(--neutral-950);
+    --bg-surface:         var(--neutral-900);
+    --bg-surface-raised:  var(--neutral-800);
+    --bg-surface-sunken:  #1a1917;
+    --bg-primary:         var(--green-500);
+    --bg-primary-hover:   var(--green-400);
+    --bg-primary-active:  var(--green-600);
+    --bg-primary-subtle:  #1e2a14;
+    --bg-accent-subtle:   #2a2010;
+    --bg-inverse:         var(--neutral-50);
+
+    --text-primary:    var(--neutral-50);
+    --text-secondary:  var(--neutral-400);
+    --text-tertiary:   var(--neutral-600);
+    --text-inverse:    var(--neutral-950);
+    --text-brand:      var(--green-400);
+    --text-accent:     var(--amber-400);
+    --text-link:       var(--green-400);
+    --text-link-hover: var(--green-300);
+    --text-on-primary: var(--neutral-950);
+
+    --border-default:  var(--neutral-800);
+    --border-strong:   var(--neutral-700);
+
+    --status-success-bg: #172214;
+    --status-warning-bg: #231c0e;
+    --status-error-bg:   #271412;
+    --status-info-bg:    #101d2a;
+
+    --shadow-xs:  0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md:  0 4px 6px rgba(0, 0, 0, 0.35), 0 2px 4px rgba(0, 0, 0, 0.25);
+    --shadow-lg:  0 10px 15px rgba(0, 0, 0, 0.35), 0 4px 6px rgba(0, 0, 0, 0.2);
+    --shadow-xl:  0 20px 25px rgba(0, 0, 0, 0.4), 0 8px 10px rgba(0, 0, 0, 0.25);
+  }
+}
+
